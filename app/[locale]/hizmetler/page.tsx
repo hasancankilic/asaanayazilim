@@ -14,8 +14,9 @@ import {
   Sparkles,
 } from '@/lib/icons';
 import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
-import { getTranslations } from 'next-intl/server';
 import IconWrapper from '@/components/IconWrapper';
+
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
   params,
@@ -24,7 +25,6 @@ export async function generateMetadata({
 }): Promise<any> {
   const resolvedParams = await params;
   const locale = (resolvedParams?.locale || 'tr') as 'tr' | 'en';
-  const t = await getTranslations({ locale, namespace: 'services' });
   
   return generateSEOMetadata({
     title: locale === 'tr' 
