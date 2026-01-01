@@ -5,8 +5,7 @@
  * This ensures icons are only rendered on the client side
  */
 
-import { LucideIcon } from '@/lib/icons';
-import type { LucideProps } from '@/lib/icons';
+import type { LucideIcon, LucideProps } from 'lucide-react';
 
 interface IconWrapperProps extends LucideProps {
   Icon: LucideIcon;

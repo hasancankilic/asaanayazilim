@@ -39,10 +39,11 @@ export async function GET(request: NextRequest) {
     const where: any = {};
     
     if (search) {
+      // SQLite doesn't support case-insensitive mode, use contains
       where.OR = [
-        { title: { contains: search, mode: 'insensitive' } },
-        { slug: { contains: search, mode: 'insensitive' } },
-        { excerpt: { contains: search, mode: 'insensitive' } },
+        { title: { contains: search } },
+        { slug: { contains: search } },
+        { excerpt: { contains: search } },
       ];
     }
 
@@ -56,7 +57,7 @@ export async function GET(request: NextRequest) {
     });
 
     // Parse JSON fields
-    const postsWithParsedFields = posts.map(post => ({
+    const postsWithParsedFields = posts.map((post: any) => ({
       ...post,
       galleryImages: post.galleryImages ? JSON.parse(post.galleryImages) : [],
     }));
@@ -101,7 +102,7 @@ export async function POST(request: NextRequest) {
       const allSlugs = await prisma.blogPost.findMany({
         select: { slug: true },
       });
-      const existingSlugs = allSlugs.map(p => p.slug);
+      const existingSlugs = allSlugs.map((p: { slug: string }) => p.slug);
       slug = generateUniqueSlug(slug, existingSlugs);
     }
 

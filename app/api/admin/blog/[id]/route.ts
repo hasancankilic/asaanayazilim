@@ -113,7 +113,7 @@ export async function PUT(
           select: { slug: true },
           where: { id: { not: id } },
         });
-        const existingSlugs = allSlugs.map(p => p.slug);
+        const existingSlugs = allSlugs.map((p: { slug: string }) => p.slug);
         slug = generateUniqueSlug(slug, existingSlugs);
       }
     }

@@ -2,37 +2,18 @@
  * Admin Authentication with Prisma
  * 
  * This file provides authentication utilities using Prisma and bcrypt
- * Falls back gracefully if Prisma is not set up
+ * Production-safe implementation
  */
 
 import { cookies } from 'next/headers';
-
-// Try to import Prisma - handle gracefully if not available
-let prisma: any = null;
-let bcrypt: any = null;
-
-try {
-  const prismaModule = require('./db');
-  prisma = prismaModule.prisma;
-} catch (error) {
-  // Prisma not available - will use fallback auth
-}
-
-try {
-  bcrypt = require('bcryptjs');
-} catch (error) {
-  // bcrypt not available - will use simple comparison
-}
+import { prisma } from './db';
+import bcrypt from 'bcryptjs';
 
 /**
  * Hash a password using bcrypt
  */
 export async function hashPassword(password: string): Promise<string> {
-  if (bcrypt) {
-    return await bcrypt.hash(password, 10);
-  }
-  // Fallback: return plain password (NOT SECURE, only for dev)
-  return password;
+  return await bcrypt.hash(password, 10);
 }
 
 /**
@@ -42,21 +23,13 @@ export async function verifyPassword(
   password: string,
   hashedPassword: string
 ): Promise<boolean> {
-  if (bcrypt) {
-    return await bcrypt.compare(password, hashedPassword);
-  }
-  // Fallback: simple comparison (NOT SECURE, only for dev)
-  return password === hashedPassword;
+  return await bcrypt.compare(password, hashedPassword);
 }
 
 /**
  * Get admin user by email
  */
 export async function getAdminByEmail(email: string) {
-  if (!prisma) {
-    return null;
-  }
-  
   try {
     return await prisma.adminUser.findUnique({
       where: { email: email.toLowerCase().trim() },
@@ -79,18 +52,15 @@ export async function verifyAdminSession(): Promise<boolean> {
       return false;
     }
     
-    // If Prisma is available, verify admin exists
-    if (prisma) {
-      try {
-        const adminCount = await prisma.adminUser.count();
-        return adminCount > 0;
-      } catch (error) {
-        // If DB error, still allow session (fallback mode)
-        return true;
-      }
+    // Verify admin exists in database
+    try {
+      const adminCount = await prisma.adminUser.count();
+      return adminCount > 0;
+    } catch (error) {
+      // If DB error, still allow session (fallback mode)
+      console.error('Error checking admin count:', error);
+      return true;
     }
-    
-    return true;
   } catch (error) {
     console.error('Error verifying admin session:', error);
     return false;
@@ -127,22 +97,22 @@ export async function clearAdminSession() {
 export async function authenticateAdmin(email: string, password: string): Promise<boolean> {
   try {
     // Try Prisma-based auth first
-    if (prisma) {
-      const admin = await getAdminByEmail(email);
-      
-      if (admin) {
-        const isValid = await verifyPassword(password, admin.password);
-        return isValid;
-      }
+    const admin = await getAdminByEmail(email);
+    
+    if (admin) {
+      const isValid = await verifyPassword(password, admin.password);
+      return isValid;
     }
     
-    // Fallback: try env-based auth (but don't set cookie here)
-    const adminEmail = (process.env.ADMIN_EMAIL || process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'hasancankilic25@gmail.com')
-      .toLowerCase()
+    // Fallback: try env-based auth (for initial setup)
+    const adminEmail = (process.env.ADMIN_EMAIL || process.env.NEXT_PUBLIC_ADMIN_EMAIL)
+      ?.toLowerCase()
       .trim();
-    const adminPassword = process.env.ADMIN_PASSWORD || process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'admin123';
+    const adminPassword = process.env.ADMIN_PASSWORD || process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
     
-    if (email.toLowerCase().trim() === adminEmail && password === adminPassword) {
+    if (adminEmail && adminPassword && email.toLowerCase().trim() === adminEmail && password === adminPassword) {
+      // Auto-seed admin user if env vars are set
+      await seedAdminUser();
       return true;
     }
     
@@ -158,10 +128,6 @@ export async function authenticateAdmin(email: string, password: string): Promis
  * This should only be run once during initial setup
  */
 export async function seedAdminUser() {
-  if (!prisma) {
-    return; // Silently fail if Prisma not available
-  }
-  
   try {
     const email = process.env.ADMIN_EMAIL || process.env.NEXT_PUBLIC_ADMIN_EMAIL;
     const password = process.env.ADMIN_PASSWORD || process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
@@ -189,5 +155,6 @@ export async function seedAdminUser() {
     console.log('✅ Admin user seeded successfully');
   } catch (error) {
     // Silently fail - allow fallback auth to work
+    console.error('Error seeding admin user:', error);
   }
 }

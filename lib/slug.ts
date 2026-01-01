@@ -1,7 +1,10 @@
 /**
- * Slug generation utility
+ * Slug generation utilities
  */
 
+/**
+ * Generate a URL-friendly slug from a string
+ */
 export function generateSlug(text: string): string {
   return text
     .toLowerCase()
@@ -11,15 +14,17 @@ export function generateSlug(text: string): string {
     .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
 }
 
+/**
+ * Generate a unique slug by appending a number if the slug already exists
+ */
 export function generateUniqueSlug(baseSlug: string, existingSlugs: string[]): string {
   let slug = baseSlug;
   let counter = 1;
-
+  
   while (existingSlugs.includes(slug)) {
     slug = `${baseSlug}-${counter}`;
     counter++;
   }
-
+  
   return slug;
 }
-

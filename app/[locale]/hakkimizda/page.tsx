@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SectionHeader from '@/components/SectionHeader';
 import KPICard from '@/components/KPICard';
+import IconWrapper from '@/components/IconWrapper';
 import { Users, Award, Code, Heart, Target, Lightbulb } from '@/lib/icons';
 import PageTransition from '@/components/PageTransition';
 import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
