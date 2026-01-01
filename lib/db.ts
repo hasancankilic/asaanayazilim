@@ -9,7 +9,6 @@
  * Note: Prisma Client types are generated via `prisma generate` (runs in postinstall).
  */
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore - Prisma Client types are generated via `prisma generate`
 import { PrismaClient } from '@prisma/client';
 
