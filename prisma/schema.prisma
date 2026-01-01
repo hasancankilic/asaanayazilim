@@ -1,0 +1,76 @@
+// Prisma Schema for AŞAANA YAZILIM CMS
+// This schema supports SQLite for development and PostgreSQL for production
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Admin User Model
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // bcrypt hashed
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admin_users")
+}
+
+// Blog Post Model
+model BlogPost {
+  id            String   @id @default(cuid())
+  title         String
+  slug          String   @unique
+  excerpt       String?  @db.Text
+  content       String   @db.Text // Rich text or markdown
+  coverImageUrl String?
+  galleryImages String?  @db.Text // JSON array of image URLs
+  seoTitle      String?
+  seoDescription String? @db.Text
+  canonicalUrl  String?
+  ogImageUrl    String?
+  status        String   @default("DRAFT") // DRAFT | PUBLISHED
+  publishedAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([slug])
+  @@index([status])
+  @@index([publishedAt])
+  @@map("blog_posts")
+}
+
+// Project Model
+model Project {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  shortDescription String? @db.Text
+  content         String?  @db.Text // Rich text or markdown
+  thumbnailUrl    String?
+  images          String?  @db.Text // JSON array of image URLs
+  tags            String?  @db.Text // JSON array of tags
+  client          String?
+  location        String?
+  year            String?
+  seoTitle        String?
+  seoDescription  String?  @db.Text
+  canonicalUrl    String?
+  ogImageUrl      String?
+  status          String   @default("DRAFT") // DRAFT | PUBLISHED
+  publishedAt     DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([slug])
+  @@index([status])
+  @@index([publishedAt])
+  @@map("projects")
+}
+

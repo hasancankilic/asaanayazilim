@@ -1,0 +1,148 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "projects": "Projects",
+    "about": "About",
+    "blog": "Blog",
+    "contact": "Contact",
+    "getQuote": "Get Quote"
+  },
+  "hero": {
+    "badge": "Next-Gen Software Solutions",
+    "title": "We Code",
+    "titleHighlight": "the Future",
+    "subtitle": "Modern Software • Mobile & Web • Artificial Intelligence",
+    "description": "We offer scalable and modern software solutions that grow your business. Enterprise-level technology, startup-speed delivery.",
+    "cta1": "See Our Projects",
+    "cta2": "Get a Quote",
+    "stats": {
+      "projects": "Completed Projects",
+      "clients": "Happy Clients",
+      "support": "Support"
+    }
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Scalable and modern technology solutions that add value to your business",
+    "viewDetails": "View Details",
+    "items": {
+      "mobile": {
+        "name": "Mobile App",
+        "description": "Native and cross-platform solutions for iOS and Android"
+      },
+      "web": {
+        "name": "Web Software",
+        "description": "Scalable, secure and high-performance web applications"
+      },
+      "saas": {
+        "name": "SaaS Solutions",
+        "description": "Digitize your business processes with cloud-based software services"
+      },
+      "ai": {
+        "name": "Artificial Intelligence",
+        "description": "Optimize your business processes with AI and machine learning"
+      },
+      "design": {
+        "name": "UI / UX Design",
+        "description": "User-centered, modern and impressive interface designs"
+      },
+      "consulting": {
+        "name": "Consulting",
+        "description": "We help you determine your technology strategies"
+      }
+    }
+  },
+  "whyUs": {
+    "title": "Why Us?"
+  },
+  "projects": {
+    "title": "Featured Projects",
+    "allProjects": "All Projects"
+  },
+  "cta": {
+    "title": "Let's bring your project to life together.",
+    "button": "Contact Us Now"
+  },
+  "footer": {
+    "links": "Links",
+    "contact": "Contact",
+    "about": "About",
+    "services": "Services",
+    "projects": "Projects",
+    "blog": "Blog",
+    "kvkk": "KVKK",
+    "privacy": "Privacy Policy",
+    "rights": "All rights reserved."
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist or has been moved.",
+    "backToHome": "Back to Home"
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Latest news and insights from technology, software development, and business",
+    "readMore": "Read More",
+    "meta": {
+      "title": "Blog - AŞAANA YAZILIM",
+      "description": "Latest news and insights from technology, software development, and business"
+    },
+    "emptyState": {
+      "title": "No Blog Posts Yet",
+      "description": "New blog posts will be added soon. Content will appear here when ready.",
+      "notConfiguredTitle": "Blog Infrastructure Being Prepared",
+      "notConfiguredDescription": "The blog content management system is currently being configured. You will be able to see blog posts here soon.",
+      "actionLabel": "Back to Home"
+    },
+    "contactCta": {
+      "title": "Contact Us for Your Projects",
+      "description": "Contact us to get detailed information and quotes for your software solutions.",
+      "button": "Contact Us"
+    }
+  },
+  "blogPost": {
+    "backToBlog": "Back to Blog",
+    "shareTitle": "Did you like this post?",
+    "shareDescription": "Help it reach more people by sharing"
+  },
+  "contact": {
+    "title": "Contact",
+    "description": "Contact us for your projects. We will get back to you as soon as possible.",
+    "reachOut": {
+      "title": "Reach Out to Us",
+      "description": "Contact us for your projects. We will get back to you as soon as possible.",
+      "phone": "Phone",
+      "email": "Email",
+      "address": "Address"
+    },
+    "form": {
+      "title": "Send Message",
+      "name": "Full Name",
+      "namePlaceholder": "Your name and surname",
+      "email": "Email",
+      "emailPlaceholder": "email@example.com",
+      "phone": "Phone",
+      "phonePlaceholder": "+1 555 123 4567",
+      "subject": "Subject",
+      "subjectPlaceholder": "Your message subject",
+      "message": "Message",
+      "messagePlaceholder": "Write your message here...",
+      "submit": "Send Message",
+      "sending": "Sending...",
+      "error": "An error occurred. Please try again.",
+      "validation": {
+        "name": "Full name is required",
+        "email": "Email is required",
+        "phone": "Phone is required",
+        "subject": "Subject is required",
+        "message": "Message is required"
+      },
+      "success": {
+        "title": "Message Sent!",
+        "description": "We received your message. We will get back to you as soon as possible.",
+        "newMessage": "Send New Message"
+      }
+    }
+  }
+}

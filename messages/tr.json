@@ -1,0 +1,148 @@
+{
+  "nav": {
+    "home": "Ana Sayfa",
+    "services": "Hizmetler",
+    "projects": "Projeler",
+    "about": "Hakkımızda",
+    "blog": "Blog",
+    "contact": "İletişim",
+    "getQuote": "Teklif Al"
+  },
+  "hero": {
+    "badge": "Yeni Nesil Yazılım Çözümleri",
+    "title": "Geleceği",
+    "titleHighlight": "Kodluyoruz",
+    "subtitle": "Modern Yazılım • Mobil & Web • Yapay Zeka",
+    "description": "İşinizi büyüten, ölçeklenebilir ve modern yazılım çözümleri sunuyoruz. Kurumsal seviyede teknoloji, startup hızında teslimat.",
+    "cta1": "Projelerimizi Gör",
+    "cta2": "Teklif Al",
+    "stats": {
+      "projects": "Tamamlanan Proje",
+      "clients": "Mutlu Müşteri",
+      "support": "Destek"
+    }
+  },
+  "services": {
+    "title": "Hizmetlerimiz",
+    "subtitle": "İşinize değer katacak, ölçeklenebilir ve modern teknoloji çözümleri",
+    "viewDetails": "Detayları Gör",
+    "items": {
+      "mobile": {
+        "name": "Mobil Uygulama",
+        "description": "iOS ve Android için native ve cross-platform çözümler"
+      },
+      "web": {
+        "name": "Web Yazılım",
+        "description": "Ölçeklenebilir, güvenli ve yüksek performanslı web uygulamaları"
+      },
+      "saas": {
+        "name": "SaaS Çözümleri",
+        "description": "Bulut tabanlı yazılım hizmetleri ile iş süreçlerinizi dijitalleştirin"
+      },
+      "ai": {
+        "name": "Yapay Zeka",
+        "description": "AI ve makine öğrenmesi ile iş süreçlerinizi optimize edin"
+      },
+      "design": {
+        "name": "UI / UX Tasarım",
+        "description": "Kullanıcı odaklı, modern ve etkileyici arayüz tasarımları"
+      },
+      "consulting": {
+        "name": "Danışmanlık",
+        "description": "Teknoloji stratejilerinizi belirlemenize yardımcı oluyoruz"
+      }
+    }
+  },
+  "whyUs": {
+    "title": "Neden Biz?"
+  },
+  "projects": {
+    "title": "Öne Çıkan Projeler",
+    "allProjects": "Tüm Projeler"
+  },
+  "cta": {
+    "title": "Projenizi birlikte hayata geçirelim.",
+    "button": "Hemen İletişime Geçin"
+  },
+  "footer": {
+    "links": "Bağlantılar",
+    "contact": "İletişim",
+    "about": "Hakkımızda",
+    "services": "Hizmetler",
+    "projects": "Projeler",
+    "blog": "Blog",
+    "kvkk": "KVKK",
+    "privacy": "Gizlilik Politikası",
+    "rights": "Tüm hakları saklıdır."
+  },
+  "notFound": {
+    "title": "Sayfa Bulunamadı",
+    "description": "Aradığınız sayfa mevcut değil veya taşınmış olabilir.",
+    "backToHome": "Ana Sayfaya Dön"
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Teknoloji, yazılım geliştirme ve iş dünyasından en güncel haberler ve içgörüler",
+    "readMore": "Devamını Oku",
+    "meta": {
+      "title": "Blog - AŞAANA YAZILIM",
+      "description": "Teknoloji, yazılım geliştirme ve iş dünyasından en güncel haberler ve içgörüler"
+    },
+    "emptyState": {
+      "title": "Henüz Blog Yazısı Yok",
+      "description": "Yakında yeni blog yazıları eklenecek. İçerikler hazır olduğunda burada görünecek.",
+      "notConfiguredTitle": "Blog Altyapısı Hazırlanıyor",
+      "notConfiguredDescription": "Blog içerik yönetim sistemi şu anda yapılandırılıyor. Yakında blog yazılarını burada görebileceksiniz.",
+      "actionLabel": "Ana Sayfaya Dön"
+    },
+    "contactCta": {
+      "title": "Projeleriniz İçin Bizimle İletişime Geçin",
+      "description": "Yazılım çözümleriniz için detaylı bilgi almak ve teklif almak için bizimle iletişime geçin.",
+      "button": "İletişime Geçin"
+    }
+  },
+  "blogPost": {
+    "backToBlog": "Blog'a Dön",
+    "shareTitle": "Bu yazıyı beğendiniz mi?",
+    "shareDescription": "Paylaşarak daha fazla kişiye ulaşmasına yardımcı olun"
+  },
+  "contact": {
+    "title": "İletişim",
+    "description": "Projeleriniz için bizimle iletişime geçin. Size en kısa sürede dönüş yapacağız.",
+    "reachOut": {
+      "title": "Bize Ulaşın",
+      "description": "Projeleriniz için bizimle iletişime geçin. Size en kısa sürede dönüş yapacağız.",
+      "phone": "Telefon",
+      "email": "E-posta",
+      "address": "Adres"
+    },
+    "form": {
+      "title": "Mesaj Gönderin",
+      "name": "Ad Soyad",
+      "namePlaceholder": "Adınız ve Soyadınız",
+      "email": "E-posta",
+      "emailPlaceholder": "email@example.com",
+      "phone": "Telefon",
+      "phonePlaceholder": "+90 555 123 45 67",
+      "subject": "Konu",
+      "subjectPlaceholder": "Mesajınızın konusu",
+      "message": "Mesaj",
+      "messagePlaceholder": "Mesajınızı buraya yazın...",
+      "submit": "Mesaj Gönder",
+      "sending": "Gönderiliyor...",
+      "error": "Bir hata oluştu. Lütfen tekrar deneyin.",
+      "validation": {
+        "name": "Ad Soyad gereklidir",
+        "email": "E-posta gereklidir",
+        "phone": "Telefon gereklidir",
+        "subject": "Konu gereklidir",
+        "message": "Mesaj gereklidir"
+      },
+      "success": {
+        "title": "Mesajınız Gönderildi!",
+        "description": "Mesajınızı aldık. En kısa sürede size dönüş yapacağız.",
+        "newMessage": "Yeni Mesaj Gönder"
+      }
+    }
+  }
+}

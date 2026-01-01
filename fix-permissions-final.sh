@@ -1,0 +1,34 @@
+#!/bin/bash
+
+echo "🔧 Dosya izin sorununu çözüyorum..."
+
+# 1. Proje dizinine git
+cd /Users/kilic/Developer/asaanayazilim || { echo "Hata: Proje dizinine gidilemedi."; exit 1; }
+
+# 2. node_modules ve .next cache'i temizle
+echo "📦 node_modules ve .next cache'i temizleniyor..."
+rm -rf node_modules .next
+npm cache clean --force
+
+# 3. Dosya izinlerini düzelt (sudo şifresi: 2525)
+echo "🔐 Dosya izinleri düzeltiliyor..."
+sudo chown -R $(whoami) /Users/kilic/Developer/asaanayazilim
+
+# 4. Extended attributes temizle (macOS)
+echo "🧹 Extended attributes temizleniyor..."
+xattr -rc /Users/kilic/Developer/asaanayazilim
+
+# 5. npm cache izinlerini düzelt
+echo "🔐 npm cache izinleri düzeltiliyor..."
+sudo chown -R $(whoami) ~/.npm
+
+# 6. node_modules'ü yeniden yükle
+echo "📥 node_modules yeniden yükleniyor..."
+npm install
+
+echo ""
+echo "✅ İzin sorunu çözüldü!"
+echo "🚀 Dev server'ı başlatmak için:"
+echo "   npm run dev"
+
+
