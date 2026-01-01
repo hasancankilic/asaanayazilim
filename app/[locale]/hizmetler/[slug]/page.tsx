@@ -3,6 +3,7 @@ import Footer from '@/components/Footer';
 import { Link } from '@/i18n/routing';
 import { ArrowLeft, CheckCircle, ArrowRight, Sparkles } from '@/lib/icons';
 import PageTransition from '@/components/PageTransition';
+import IconWrapper from '@/components/IconWrapper';
 
 const serviceDetails: Record<string, any> = {
   'mobil-uygulama': {
@@ -132,7 +133,7 @@ export default async function ServiceDetailPage({
               href="/hizmetler"
               className="text-blue-400 hover:text-blue-300 inline-flex items-center gap-2"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <IconWrapper Icon={ArrowLeft} className="w-4 h-4" />
               Hizmetler sayfasına dön
             </Link>
           </div>
@@ -157,7 +158,7 @@ export default async function ServiceDetailPage({
             href="/hizmetler"
             className="inline-flex items-center text-blue-400 hover:text-blue-300 mb-8 transition-colors group"
           >
-            <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+            <IconWrapper Icon={ArrowLeft} className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
             Hizmetlere Dön
           </Link>
 
@@ -180,7 +181,7 @@ export default async function ServiceDetailPage({
               {/* Technologies */}
               <div>
                 <h2 className="text-3xl font-semibold text-white mb-6 flex items-center gap-3">
-                  <Sparkles className="w-8 h-8 text-blue-400" />
+                  <IconWrapper Icon={Sparkles} className="w-8 h-8 text-blue-400" />
                   Kullanılan Teknolojiler
                 </h2>
                 <div className="glass-card rounded-2xl p-8">
@@ -200,14 +201,14 @@ export default async function ServiceDetailPage({
               {/* Benefits */}
               <div>
                 <h2 className="text-3xl font-semibold text-white mb-6 flex items-center gap-3">
-                  <CheckCircle className="w-8 h-8 text-green-400" />
+                  <IconWrapper Icon={CheckCircle} className="w-8 h-8 text-green-400" />
                   Avantajlar
                 </h2>
                 <div className="glass-card rounded-2xl p-8">
                   <ul className="space-y-4">
                     {service.benefits.map((benefit: string, idx: number) => (
                       <li key={idx} className="flex items-start text-white/80 group">
-                        <CheckCircle className="w-5 h-5 mr-3 text-blue-400 flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
+                        <IconWrapper Icon={CheckCircle} className="w-5 h-5 mr-3 text-blue-400 flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
                         <span className="leading-relaxed">{benefit}</span>
                       </li>
                     ))}
@@ -230,7 +231,7 @@ export default async function ServiceDetailPage({
                   className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl font-semibold transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/50 transform hover:scale-105"
                 >
                   Teklif Al
-                  <ArrowRight className="ml-2 w-5 h-5" />
+                  <IconWrapper Icon={ArrowRight} className="ml-2 w-5 h-5" />
                 </Link>
               </div>
             </div>

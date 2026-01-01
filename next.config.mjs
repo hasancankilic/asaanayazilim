@@ -29,9 +29,9 @@ const nextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
-  // Removed optimizePackageImports for lucide-react - using centralized lib/icons.ts instead
+  // Optimize package imports for better tree-shaking
   experimental: {
-    // optimizePackageImports handled via centralized icon exports
+    optimizePackageImports: ['lucide-react'],
   },
   // Webpack optimizations - simplified for stability
   webpack: (config, { isServer }) => {

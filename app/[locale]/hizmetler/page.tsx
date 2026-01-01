@@ -118,7 +118,6 @@ export default function ServicesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => {
-              const Icon = service.icon;
               return (
                 <Link
                   key={service.id}
@@ -136,7 +135,7 @@ export default function ServicesPage() {
                       <div
                         className={`w-16 h-16 rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}
                       >
-                        <Icon className="w-8 h-8 text-white" />
+                        <IconWrapper Icon={service.icon} className="w-8 h-8 text-white" />
                       </div>
 
                       {/* Content */}
@@ -154,7 +153,7 @@ export default function ServicesPage() {
                             key={idx}
                             className="flex items-center text-sm text-white/60"
                           >
-                            <CheckCircle className="w-4 h-4 mr-2 text-blue-400 flex-shrink-0" />
+                            <IconWrapper Icon={CheckCircle} className="w-4 h-4 mr-2 text-blue-400 flex-shrink-0" />
                             {feature}
                           </li>
                         ))}
@@ -163,7 +162,7 @@ export default function ServicesPage() {
                       {/* CTA */}
                       <div className="flex items-center text-blue-400 font-medium group-hover:translate-x-2 transition-transform">
                         Detayları Gör
-                        <ArrowRight className="w-4 h-4 ml-2" />
+                        <IconWrapper Icon={ArrowRight} className="w-4 h-4 ml-2" />
                       </div>
                     </div>
                   </div>
@@ -189,7 +188,7 @@ export default function ServicesPage() {
               className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl font-semibold transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/50 transform hover:scale-105"
             >
               İletişime Geçin
-              <ArrowRight className="ml-2 w-5 h-5" />
+              <IconWrapper Icon={ArrowRight} className="ml-2 w-5 h-5" />
             </Link>
           </div>
         </div>
