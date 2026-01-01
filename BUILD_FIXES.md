@@ -71,3 +71,4 @@ NEXT_PUBLIC_SITE_URL="https://yourdomain.com"
 - Database migrations should be run manually: `npm run db:push` or `npm run db:migrate`
 - Admin user seeding happens automatically on first login if env vars are set
 
+

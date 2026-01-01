@@ -17,6 +17,8 @@ import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
 import IconWrapper from '@/components/IconWrapper';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const dynamicParams = true;
 
 export async function generateMetadata({
   params,
