@@ -2,8 +2,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Link } from '@/i18n/routing';
 import Image from 'next/image';
-import { ArrowLeft, CheckCircle, Calendar, Tag, Users, TrendingUp } from '@/lib/icons';
 import PageTransition from '@/components/PageTransition';
+import DynamicIcon from '@/components/DynamicIcon';
 
 const projectDetails: Record<string, any> = {
   'project-1': {
@@ -141,7 +141,7 @@ export default async function ProjectDetailPage({
               href="/projeler"
               className="text-blue-400 hover:text-blue-300 inline-flex items-center gap-2"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <DynamicIcon iconName="ArrowLeft" className="w-4 h-4" />
               Projeler sayfasına dön
             </Link>
           </div>
@@ -166,7 +166,7 @@ export default async function ProjectDetailPage({
             href="/projeler"
             className="inline-flex items-center text-blue-400 hover:text-blue-300 mb-8 transition-colors group"
           >
-            <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+            <DynamicIcon iconName="ArrowLeft" className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
             Projelere Dön
           </Link>
 
@@ -180,7 +180,7 @@ export default async function ProjectDetailPage({
             {/* Meta */}
             <div className="flex items-center gap-6 mt-6">
               <div className="flex items-center gap-2 text-white/60">
-                <Calendar className="w-5 h-5" />
+                <DynamicIcon iconName="Calendar" className="w-5 h-5" />
                 {project.date}
               </div>
             </div>
@@ -212,7 +212,7 @@ export default async function ProjectDetailPage({
               {/* Technologies */}
               <div>
                 <h2 className="text-3xl font-semibold text-white mb-6 flex items-center gap-3">
-                  <Tag className="w-8 h-8 text-blue-400" />
+                  <DynamicIcon iconName="Tag" className="w-8 h-8 text-blue-400" />
                   Teknolojiler
                 </h2>
                 <div className="glass-card rounded-2xl p-8">
@@ -232,14 +232,14 @@ export default async function ProjectDetailPage({
               {/* Features */}
               <div>
                 <h2 className="text-3xl font-semibold text-white mb-6 flex items-center gap-3">
-                  <CheckCircle className="w-8 h-8 text-green-400" />
+                  <DynamicIcon iconName="CheckCircle" className="w-8 h-8 text-green-400" />
                   Özellikler
                 </h2>
                 <div className="glass-card rounded-2xl p-8">
                   <ul className="space-y-4">
                     {project.features.map((feature: string, idx: number) => (
                       <li key={idx} className="flex items-start text-white/80 group">
-                        <CheckCircle className="w-5 h-5 mr-3 text-blue-400 flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
+                        <DynamicIcon iconName="CheckCircle" className="w-5 h-5 mr-3 text-blue-400 flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
                         <span className="leading-relaxed">{feature}</span>
                       </li>
                     ))}
@@ -251,7 +251,7 @@ export default async function ProjectDetailPage({
             {/* Result */}
             <div className="glass-card rounded-2xl p-8 border border-green-500/20 bg-gradient-to-br from-green-500/5 to-blue-500/5">
               <div className="flex items-start gap-4">
-                <TrendingUp className="w-8 h-8 text-green-400 flex-shrink-0 mt-1" />
+                <DynamicIcon iconName="TrendingUp" className="w-8 h-8 text-green-400 flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="text-2xl font-semibold text-white mb-3">Sonuç</h3>
                   <p className="text-lg text-white/80 leading-relaxed">{project.result}</p>

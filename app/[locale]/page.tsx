@@ -1,4 +1,3 @@
-import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
 import { generateHomepageStructuredData } from '@/lib/structured-data';

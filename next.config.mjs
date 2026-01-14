@@ -7,6 +7,13 @@ const nextConfig = {
   // Compression and optimization
   compress: true,
   poweredByHeader: false,
+  // Allow build to succeed with ESLint warnings (warnings don't block production)
+  eslint: {
+    ignoreDuringBuilds: false, // Keep ESLint enabled, but warnings won't fail build
+  },
+  typescript: {
+    ignoreBuildErrors: false, // TypeScript errors will still fail build
+  },
   
   images: {
     remotePatterns: [
@@ -33,14 +40,28 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react'],
   },
-  // Webpack optimizations - simplified for stability
+  // Webpack optimizations - prevent chunk issues
   webpack: (config, { isServer }) => {
+    // Fix chunk loading issues for client-side
     if (!isServer) {
       config.optimization = {
         ...config.optimization,
         moduleIds: 'deterministic',
+        chunkIds: 'deterministic',
       };
     }
+    
+    // Prevent missing chunk errors
+    if (!config.resolve.fallback) {
+      config.resolve.fallback = {};
+    }
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      net: false,
+      tls: false,
+    };
+    
     return config;
   },
   async headers() {

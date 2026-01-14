@@ -2,11 +2,10 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SectionHeader from '@/components/SectionHeader';
 import KPICard from '@/components/KPICard';
-import IconWrapper from '@/components/IconWrapper';
-import { Users, Award, Code, Heart, Target, Lightbulb } from '@/lib/icons';
 import PageTransition from '@/components/PageTransition';
 import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
 import { getTranslations } from 'next-intl/server';
+import DynamicIcon from '@/components/DynamicIcon';
 
 export async function generateMetadata({
   params,
@@ -48,7 +47,7 @@ export default async function AboutPage({
           <SectionHeader
             title="Hakkımızda"
             description="Geleceği kodlayan, teknoloji ile iş dünyasını birleştiren bir ekibiz"
-            icon={<IconWrapper Icon={Users} className="w-12 h-12 text-blue-400" />}
+            iconName="Users"
           />
         </div>
       </section>
@@ -62,7 +61,7 @@ export default async function AboutPage({
                 title="Tamamlanan Proje"
                 value="100+"
                 change={25}
-                icon={<IconWrapper Icon={Code} className="w-6 h-6" />}
+                iconName="Code"
                 gradient="from-blue-500 to-cyan-500"
                 delay={0}
               />
@@ -70,14 +69,14 @@ export default async function AboutPage({
                 title="Mutlu Müşteri"
                 value="50+"
                 change={30}
-                icon={<IconWrapper Icon={Heart} className="w-6 h-6" />}
+                iconName="Heart"
                 gradient="from-purple-500 to-pink-500"
                 delay={0.1}
               />
               <KPICard
                 title="Deneyim (Yıl)"
                 value="5+"
-                icon={<IconWrapper Icon={Award} className="w-6 h-6" />}
+                iconName="Award"
                 gradient="from-indigo-500 to-blue-500"
                 delay={0.2}
               />
@@ -85,7 +84,7 @@ export default async function AboutPage({
                 title="Ekip Üyesi"
                 value="15+"
                 change={20}
-                icon={<IconWrapper Icon={Users} className="w-6 h-6" />}
+                iconName="Users"
                 gradient="from-orange-500 to-red-500"
                 delay={0.3}
               />
@@ -125,7 +124,7 @@ export default async function AboutPage({
               {/* Mission */}
               <div className="glass-card rounded-2xl p-8 border border-blue-500/20">
                 <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mb-6">
-                  <IconWrapper Icon={Target} className="w-8 h-8 text-white" />
+                  <DynamicIcon iconName="Target" className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl font-semibold text-white mb-4">Misyonumuz</h2>
                 <p className="text-white/80 leading-relaxed text-lg">
@@ -137,7 +136,7 @@ export default async function AboutPage({
               {/* Vision */}
               <div className="glass-card rounded-2xl p-8 border border-purple-500/20">
                 <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mb-6">
-                  <IconWrapper Icon={Lightbulb} className="w-8 h-8 text-white" />
+                  <DynamicIcon iconName="Lightbulb" className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl font-semibold text-white mb-4">Vizyonumuz</h2>
                 <p className="text-white/80 leading-relaxed text-lg">

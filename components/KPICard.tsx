@@ -3,12 +3,16 @@
 import { motion } from "framer-motion";
 import { TrendingUp, TrendingDown } from "@/lib/icons";
 import { ReactNode } from "react";
+import IconWrapper from "./IconWrapper";
+import * as Icons from "@/lib/icons";
 
 interface KPICardProps {
   title: string;
   value: string | number;
   change?: number;
-  icon: ReactNode;
+  icon?: ReactNode;
+  iconName?: keyof typeof Icons;
+  iconClassName?: string;
   gradient: string;
   delay?: number;
 }
@@ -18,11 +22,18 @@ const KPICard = ({
   value,
   change,
   icon,
+  iconName,
+  iconClassName = "w-6 h-6",
   gradient,
   delay = 0,
 }: KPICardProps) => {
   const isPositive = change !== undefined && change >= 0;
   const TrendIcon = isPositive ? TrendingUp : TrendingDown;
+
+  // Render icon from iconName if provided (prevents serialization issues)
+  const renderedIcon = iconName && iconName in Icons && typeof Icons[iconName] === 'function' ? (
+    <IconWrapper Icon={Icons[iconName] as typeof Icons.Code} className={iconClassName} />
+  ) : icon;
 
   return (
     <motion.div
@@ -42,7 +53,7 @@ const KPICard = ({
           <div
             className={`w-12 h-12 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg`}
           >
-            {icon}
+            {renderedIcon}
           </div>
           {change !== undefined && (
             <div

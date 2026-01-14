@@ -4,10 +4,8 @@ import SectionHeader from '@/components/SectionHeader';
 import EmptyState from '@/components/EmptyState';
 import { Link } from '@/i18n/routing';
 import Image from 'next/image';
-import { FolderKanban, ArrowRight, Calendar, Tag } from '@/lib/icons';
 import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
-import { getTranslations } from 'next-intl/server';
-import IconWrapper from '@/components/IconWrapper';
+import DynamicIcon from '@/components/DynamicIcon';
 
 export async function generateMetadata({
   params,
@@ -102,7 +100,7 @@ export default function ProjectsPage() {
           <SectionHeader
             title="Projelerimiz"
             description="Geçmişten bugüne, farklı sektörlerde gerçekleştirdiğimiz başarılı projeler"
-            icon={<IconWrapper Icon={FolderKanban} className="w-12 h-12 text-blue-400" />}
+            iconName="FolderKanban"
           />
         </div>
       </section>
@@ -147,7 +145,7 @@ export default function ProjectsPage() {
                     {/* Meta Info */}
                     <div className="flex items-center gap-4 text-sm text-white/50 mb-4">
                       <div className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
+                        <DynamicIcon iconName="Calendar" className="w-4 h-4" />
                         {project.date}
                       </div>
                     </div>
@@ -155,7 +153,7 @@ export default function ProjectsPage() {
                     {/* CTA */}
                     <div className="flex items-center text-blue-400 font-medium group-hover:translate-x-2 transition-transform">
                       Detayları Gör
-                      <ArrowRight className="w-4 h-4 ml-2" />
+                      <DynamicIcon iconName="ArrowRight" className="w-4 h-4 ml-2" />
                     </div>
                   </div>
                 </div>

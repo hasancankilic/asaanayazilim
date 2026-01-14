@@ -9,7 +9,7 @@ import { fetchSanityData, isSanityAvailable } from '@/lib/sanity/client';
 import { blogPostsQuery } from '@/lib/sanity/queries';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import IconWrapper from '@/components/IconWrapper';
+import DynamicIcon from '@/components/DynamicIcon';
 
 export const revalidate = 0; // Always revalidate for real-time updates
 export const dynamic = 'force-dynamic';
@@ -75,7 +75,7 @@ export default async function BlogPage({
           <SectionHeader
             title={t('title')}
             description={t('description')}
-            icon={<IconWrapper Icon={BookOpen} className="w-12 h-12 text-blue-400" />}
+            iconName="BookOpen"
           />
         </div>
       </section>
@@ -141,7 +141,7 @@ export default async function BlogPage({
                       {/* Meta Info */}
                       <div className="flex items-center justify-between text-sm text-white/50 mb-4 pt-4 border-t border-white/10">
                         <div className="flex items-center gap-1">
-                          <IconWrapper Icon={Calendar} className="w-4 h-4" />
+                          <DynamicIcon iconName="Calendar" className="w-4 h-4" />
                           {post.publishedAt
                             ? new Date(post.publishedAt).toLocaleDateString(locale === 'en' ? 'en-US' : 'tr-TR', {
                                 year: 'numeric',
@@ -159,7 +159,7 @@ export default async function BlogPage({
                       {/* CTA */}
                       <div className="flex items-center text-blue-400 font-medium group-hover:translate-x-2 transition-transform">
                         {t('readMore')}
-                        <IconWrapper Icon={ArrowRight} className="w-4 h-4 ml-2" />
+                        <DynamicIcon iconName="ArrowRight" className="w-4 h-4 ml-2" />
                       </div>
                     </div>
                   </div>
@@ -185,7 +185,7 @@ export default async function BlogPage({
               className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl font-semibold transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/50 transform hover:scale-105"
             >
               {t('contactCta.button')}
-              <IconWrapper Icon={ArrowRight} className="ml-2 w-5 h-5" />
+              <DynamicIcon iconName="ArrowRight" className="ml-2 w-5 h-5" />
             </Link>
           </div>
         </div>

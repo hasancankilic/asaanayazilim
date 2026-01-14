@@ -2,19 +2,9 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SectionHeader from '@/components/SectionHeader';
 import { Link } from '@/i18n/routing';
-import {
-  Smartphone,
-  Monitor,
-  Code,
-  Brain,
-  Palette,
-  MessageSquare,
-  ArrowRight,
-  CheckCircle,
-  Sparkles,
-} from '@/lib/icons';
 import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
-import IconWrapper from '@/components/IconWrapper';
+import ServiceIcon from '@/components/ServiceIcon';
+import ServiceFeatureIcon from '@/components/ServiceFeatureIcon';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -45,7 +35,7 @@ const services = [
   {
     id: 'mobil-uygulama',
     name: 'Mobil Uygulama',
-    icon: Smartphone,
+    iconName: 'Smartphone',
     description: 'iOS ve Android platformları için modern mobil uygulamalar',
     gradient: 'from-blue-500 to-cyan-500',
     features: ['React Native', 'Flutter', 'Native Performance'],
@@ -53,7 +43,7 @@ const services = [
   {
     id: 'web-yazilim',
     name: 'Web Yazılım',
-    icon: Monitor,
+    iconName: 'Monitor',
     description: 'Ölçeklenebilir ve performanslı web uygulamaları',
     gradient: 'from-purple-500 to-pink-500',
     features: ['Next.js', 'React', 'TypeScript'],
@@ -61,7 +51,7 @@ const services = [
   {
     id: 'saas-cozumleri',
     name: 'SaaS Çözümleri',
-    icon: Code,
+    iconName: 'Code',
     description: 'Bulut tabanlı yazılım hizmetleri',
     gradient: 'from-indigo-500 to-blue-500',
     features: ['Multi-tenant', 'Auto-scaling', 'API First'],
@@ -69,7 +59,7 @@ const services = [
   {
     id: 'yapay-zeka',
     name: 'Yapay Zeka',
-    icon: Brain,
+    iconName: 'Brain',
     description: 'AI ve makine öğrenmesi çözümleri',
     gradient: 'from-orange-500 to-red-500',
     features: ['Machine Learning', 'NLP', 'Computer Vision'],
@@ -77,7 +67,7 @@ const services = [
   {
     id: 'ui-ux-tasarim',
     name: 'UI / UX Tasarım',
-    icon: Palette,
+    iconName: 'Palette',
     description: 'Kullanıcı odaklı tasarım çözümleri',
     gradient: 'from-pink-500 to-rose-500',
     features: ['User Research', 'Prototyping', 'Design Systems'],
@@ -85,7 +75,7 @@ const services = [
   {
     id: 'danismanlik',
     name: 'Danışmanlık',
-    icon: MessageSquare,
+    iconName: 'MessageSquare',
     description: 'Teknoloji danışmanlık hizmetleri',
     gradient: 'from-teal-500 to-green-500',
     features: ['Tech Audit', 'Architecture', 'DevOps'],
@@ -108,7 +98,7 @@ export default function ServicesPage() {
           <SectionHeader
             title="Hizmetlerimiz"
             description="İşinize değer katacak, ölçeklenebilir ve modern teknoloji çözümleri"
-            icon={<IconWrapper Icon={Sparkles} className="w-12 h-12 text-blue-400" />}
+            iconName="Sparkles"
           />
         </div>
       </section>
@@ -135,7 +125,7 @@ export default function ServicesPage() {
                       <div
                         className={`w-16 h-16 rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}
                       >
-                        <IconWrapper Icon={service.icon} className="w-8 h-8 text-white" />
+                        <ServiceIcon iconName={service.iconName} className="w-8 h-8 text-white" />
                       </div>
 
                       {/* Content */}
@@ -153,7 +143,7 @@ export default function ServicesPage() {
                             key={idx}
                             className="flex items-center text-sm text-white/60"
                           >
-                            <IconWrapper Icon={CheckCircle} className="w-4 h-4 mr-2 text-blue-400 flex-shrink-0" />
+                            <ServiceFeatureIcon iconName="CheckCircle" className="w-4 h-4 mr-2 text-blue-400 flex-shrink-0" />
                             {feature}
                           </li>
                         ))}
@@ -162,7 +152,7 @@ export default function ServicesPage() {
                       {/* CTA */}
                       <div className="flex items-center text-blue-400 font-medium group-hover:translate-x-2 transition-transform">
                         Detayları Gör
-                        <IconWrapper Icon={ArrowRight} className="w-4 h-4 ml-2" />
+                        <ServiceFeatureIcon iconName="ArrowRight" className="w-4 h-4 ml-2" />
                       </div>
                     </div>
                   </div>
@@ -188,7 +178,7 @@ export default function ServicesPage() {
               className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl font-semibold transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/50 transform hover:scale-105"
             >
               İletişime Geçin
-              <IconWrapper Icon={ArrowRight} className="ml-2 w-5 h-5" />
+              <ServiceFeatureIcon iconName="ArrowRight" className="ml-2 w-5 h-5" />
             </Link>
           </div>
         </div>

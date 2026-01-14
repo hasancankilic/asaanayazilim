@@ -72,3 +72,4 @@ NEXT_PUBLIC_SITE_URL="https://yourdomain.com"
 - Admin user seeding happens automatically on first login if env vars are set
 
 
+

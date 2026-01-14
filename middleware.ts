@@ -14,6 +14,11 @@ const intlMiddleware = createMiddleware(routing);
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Root path redirect to default locale
+  if (pathname === '/') {
+    return NextResponse.redirect(new URL(`/${routing.defaultLocale}`, request.url));
+  }
+
   // Redirect locale-prefixed admin routes to /admin
   // e.g., /tr/admin -> /admin, /en/admin -> /admin
   const localePrefixMatch = pathname.match(/^\/(tr|en)\/admin(\/.*)?$/);

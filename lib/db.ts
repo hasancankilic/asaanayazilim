@@ -27,4 +27,9 @@ export const prisma =
 
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma;
+} else {
+  // In production, ensure singleton is maintained
+  if (!globalForPrisma.prisma) {
+    globalForPrisma.prisma = prisma;
+  }
 }
