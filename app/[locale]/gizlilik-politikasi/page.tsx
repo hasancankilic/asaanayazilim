@@ -4,6 +4,29 @@ import SectionHeader from '@/components/SectionHeader';
 import ShieldIcon from '@/components/ShieldIcon';
 import PageTransition from '@/components/PageTransition';
 import { CONTACT_INFO } from '@/lib/constants';
+import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  const locale = (resolvedParams?.locale || 'tr') as 'tr' | 'en';
+
+  return generateSEOMetadata({
+    title: locale === 'tr'
+      ? 'Gizlilik Politikası | AŞAANA YAZILIM'
+      : 'Privacy Policy | AŞAANA YAZILIM',
+    description: locale === 'tr'
+      ? 'Kişisel verilerin korunması ve gizliliği konusundaki taahhütlerimiz.'
+      : 'Our commitments regarding privacy and protection of personal data.',
+    locale,
+    url: locale === 'tr' ? '/tr/gizlilik-politikasi' : '/en/gizlilik-politikasi',
+    image: '/og-image.jpg',
+  });
+}
 
 export default function PrivacyPolicyPage() {
   return (
@@ -21,6 +44,7 @@ export default function PrivacyPolicyPage() {
             title="Gizlilik Politikası"
             description="Kişisel verilerinizin korunması ve gizliliği konusundaki taahhütlerimiz"
             icon={<ShieldIcon className="w-12 h-12 text-blue-400" />}
+            headingLevel="h1"
           />
         </div>
       </section>

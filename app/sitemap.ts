@@ -1,7 +1,11 @@
 import { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.NODE_ENV === 'production'
+      ? 'https://asaanayazilim.com'
+      : 'http://localhost:3000');
   const locales = ['tr', 'en'];
 
   const staticRoutes = [

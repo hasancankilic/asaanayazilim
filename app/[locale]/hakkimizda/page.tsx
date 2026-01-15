@@ -48,6 +48,7 @@ export default async function AboutPage({
             title="Hakkımızda"
             description="Geleceği kodlayan, teknoloji ile iş dünyasını birleştiren bir ekibiz"
             iconName="Users"
+            headingLevel="h1"
           />
         </div>
       </section>

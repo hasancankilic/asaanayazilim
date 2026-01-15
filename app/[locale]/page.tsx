@@ -1,14 +1,30 @@
-import { getTranslations } from 'next-intl/server';
 import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
 import { generateHomepageStructuredData } from '@/lib/structured-data';
 import Script from 'next/script';
+import dynamic from 'next/dynamic';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import Hero from '@/components/Hero';
-import Services from '@/components/Services';
-import WhyUs from '@/components/WhyUs';
-import FeaturedProjects from '@/components/FeaturedProjects';
-import CTA from '@/components/CTA';
+
+const Services = dynamic(() => import('@/components/Services'), {
+  ssr: false,
+  loading: () => <div className="min-h-[520px]" aria-hidden="true" />,
+});
+const WhyUs = dynamic(() => import('@/components/WhyUs'), {
+  ssr: false,
+  loading: () => <div className="min-h-[520px]" aria-hidden="true" />,
+});
+const FeaturedProjects = dynamic(() => import('@/components/FeaturedProjects'), {
+  ssr: false,
+  loading: () => <div className="min-h-[520px]" aria-hidden="true" />,
+});
+const CTA = dynamic(() => import('@/components/CTA'), {
+  ssr: false,
+  loading: () => <div className="min-h-[320px]" aria-hidden="true" />,
+});
+const Footer = dynamic(() => import('@/components/Footer'), {
+  ssr: false,
+  loading: () => <div className="min-h-[200px]" aria-hidden="true" />,
+});
 
 export async function generateMetadata({
   params,
@@ -19,15 +35,14 @@ export async function generateMetadata({
   const locale = (resolvedParams?.locale || 'tr') as 'tr' | 'en';
   const url = locale === 'tr' ? '/tr' : '/en';
 
-  const t = await getTranslations({ locale, namespace: 'homepage' });
-
   return generateSEOMetadata({
-    title: locale === 'tr' 
-      ? 'AŞAANA YAZILIM - Geleceği Kodluyoruz | Modern Yazılım Çözümleri'
-      : 'AŞAANA YAZILIM - Coding the Future | Modern Software Solutions',
+    title: locale === 'tr'
+      ? 'Asaana Yazılım | Web, Mobil ve Yapay Zeka Çözümleri'
+      : 'Asaana Software | Web, Mobile and AI Solutions',
     description: locale === 'tr'
-      ? 'Modern yazılım çözümleri, mobil uygulama geliştirme, web yazılım, yapay zeka ve danışmanlık hizmetleri. Türkiye\'nin güvenilir yazılım partneri.'
-      : 'Modern software solutions, mobile app development, web software, artificial intelligence and consulting services. Turkey\'s trusted software partner.',
+      ? 'Asaana Yazılım; web yazılım, mobil uygulama ve yapay zeka çözümleriyle markaların dijital dönüşümünü hızlandırır.'
+      : 'Asaana Software accelerates digital transformation with web, mobile, and AI solutions.',
+    absoluteTitle: true,
     locale,
     url,
     image: '/og-image.jpg',

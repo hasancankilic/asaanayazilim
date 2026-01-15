@@ -4,6 +4,29 @@ import SectionHeader from '@/components/SectionHeader';
 import FileTextIcon from '@/components/FileTextIcon';
 import PageTransition from '@/components/PageTransition';
 import { CONTACT_INFO } from '@/lib/constants';
+import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  const locale = (resolvedParams?.locale || 'tr') as 'tr' | 'en';
+
+  return generateSEOMetadata({
+    title: locale === 'tr'
+      ? 'KVKK Aydınlatma Metni | AŞAANA YAZILIM'
+      : 'KVKK Disclosure | AŞAANA YAZILIM',
+    description: locale === 'tr'
+      ? 'Kişisel Verilerin Korunması Kanunu kapsamında bilgilendirme metni.'
+      : 'Disclosure text under the Personal Data Protection Law.',
+    locale,
+    url: locale === 'tr' ? '/tr/kvkk' : '/en/kvkk',
+    image: '/og-image.jpg',
+  });
+}
 
 export default function KVKKPage() {
   return (
@@ -21,6 +44,7 @@ export default function KVKKPage() {
             title="KVKK Aydınlatma Metni"
             description="Kişisel Verilerin Korunması Kanunu kapsamında bilgilendirme metni"
             icon={<FileTextIcon className="w-12 h-12 text-blue-400" />}
+            headingLevel="h1"
           />
         </div>
       </section>

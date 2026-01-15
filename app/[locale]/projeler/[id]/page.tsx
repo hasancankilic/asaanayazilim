@@ -4,6 +4,8 @@ import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 import PageTransition from '@/components/PageTransition';
 import DynamicIcon from '@/components/DynamicIcon';
+import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
+import type { Metadata } from 'next';
 
 const projectDetails: Record<string, any> = {
   'project-1': {
@@ -122,6 +124,30 @@ const projectDetails: Record<string, any> = {
   },
 };
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string; locale?: string }>;
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  const { id, locale = 'tr' } = resolvedParams;
+  const project = projectDetails[id];
+
+  const title = project?.title || (locale === 'tr' ? 'Proje Detayı | AŞAANA YAZILIM' : 'Project Detail | AŞAANA YAZILIM');
+  const description = project?.description || (locale === 'tr'
+    ? 'Projelerimizin detaylarını keşfedin.'
+    : 'Discover details of our projects.');
+
+  return generateSEOMetadata({
+    title,
+    description,
+    locale: locale as 'tr' | 'en',
+    url: locale === 'tr' ? `/tr/projeler/${id}` : `/en/projeler/${id}`,
+    image: project?.image || '/og-image.jpg',
+    type: 'article',
+  });
+}
+
 export default async function ProjectDetailPage({
   params,
 }: {
@@ -199,6 +225,7 @@ export default async function ProjectDetailPage({
                 fill
                 sizes="100vw"
                 className="object-cover"
+                priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
             </div>

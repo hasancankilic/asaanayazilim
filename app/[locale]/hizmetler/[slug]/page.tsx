@@ -4,6 +4,8 @@ import { Link } from '@/i18n/routing';
 import PageTransition from '@/components/PageTransition';
 import SparklesIcon from '@/components/SparklesIcon';
 import DynamicIcon from '@/components/DynamicIcon';
+import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
+import type { Metadata } from 'next';
 
 const serviceDetails: Record<string, any> = {
   'mobil-uygulama': {
@@ -109,6 +111,30 @@ const serviceDetails: Record<string, any> = {
     icon: '💼',
   },
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; locale?: string }>;
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  const { slug, locale = 'tr' } = resolvedParams;
+  const service = serviceDetails[slug];
+
+  const title = service?.title || (locale === 'tr' ? 'Hizmet Detayı | AŞAANA YAZILIM' : 'Service Detail | AŞAANA YAZILIM');
+  const description = service?.description || (locale === 'tr'
+    ? 'Yazılım hizmetlerimizin detaylarını keşfedin.'
+    : 'Discover details of our software services.');
+
+  return generateSEOMetadata({
+    title,
+    description,
+    locale: locale as 'tr' | 'en',
+    url: locale === 'tr' ? `/tr/hizmetler/${slug}` : `/en/hizmetler/${slug}`,
+    image: '/og-image.jpg',
+    type: 'article',
+  });
+}
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;

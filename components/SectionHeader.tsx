@@ -12,6 +12,7 @@ interface SectionHeaderProps {
   iconName?: keyof typeof Icons;
   iconClassName?: string;
   centered?: boolean;
+  headingLevel?: 'h1' | 'h2' | 'h3';
 }
 
 const SectionHeader = ({
@@ -21,6 +22,7 @@ const SectionHeader = ({
   iconName,
   iconClassName = "w-12 h-12 text-blue-400",
   centered = true,
+  headingLevel = 'h2',
 }: SectionHeaderProps) => {
   // Render icon from iconName if provided (prevents serialization issues)
   const renderedIcon = iconName && iconName in Icons && typeof Icons[iconName] === 'function' ? (
@@ -38,9 +40,21 @@ const SectionHeader = ({
       {renderedIcon && (
         <div className="flex justify-center mb-4">{renderedIcon}</div>
       )}
-      <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-        {title}
-      </h2>
+      {headingLevel === 'h1' && (
+        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          {title}
+        </h1>
+      )}
+      {headingLevel === 'h2' && (
+        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          {title}
+        </h2>
+      )}
+      {headingLevel === 'h3' && (
+        <h3 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          {title}
+        </h3>
+      )}
       <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-4"></div>
       {description && (
         <p className="text-xl text-white/70 max-w-2xl mx-auto">

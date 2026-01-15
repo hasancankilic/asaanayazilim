@@ -99,6 +99,7 @@ export default function ServicesPage() {
             title="Hizmetlerimiz"
             description="İşinize değer katacak, ölçeklenebilir ve modern teknoloji çözümleri"
             iconName="Sparkles"
+            headingLevel="h1"
           />
         </div>
       </section>

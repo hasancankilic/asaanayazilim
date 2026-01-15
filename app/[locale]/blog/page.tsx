@@ -4,7 +4,6 @@ import SectionHeader from '@/components/SectionHeader';
 import EmptyState from '@/components/EmptyState';
 import { Link } from '@/i18n/routing';
 import Image from 'next/image';
-import { BookOpen, Calendar, ArrowRight } from '@/lib/icons';
 import { fetchSanityData, isSanityAvailable } from '@/lib/sanity/client';
 import { blogPostsQuery } from '@/lib/sanity/queries';
 import type { Metadata } from 'next';
@@ -76,6 +75,7 @@ export default async function BlogPage({
             title={t('title')}
             description={t('description')}
             iconName="BookOpen"
+            headingLevel="h1"
           />
         </div>
       </section>
@@ -115,6 +115,8 @@ export default async function BlogPage({
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           className="object-cover group-hover:scale-110 transition-transform duration-500"
+                          loading="lazy"
+                          decoding="async"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         

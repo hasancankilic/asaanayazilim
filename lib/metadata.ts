@@ -20,6 +20,7 @@ interface GenerateMetadataOptions {
   locale?: 'tr' | 'en';
   type?: 'website' | 'article';
   noindex?: boolean;
+  absoluteTitle?: boolean;
 }
 
 export function generateMetadata({
@@ -30,9 +31,12 @@ export function generateMetadata({
   locale = 'tr',
   type = 'website',
   noindex = false,
+  absoluteTitle = false,
 }: GenerateMetadataOptions = {}): Metadata {
-  const finalTitle = title 
-    ? `${title} | ${siteName}`
+  const finalTitle = title
+    ? absoluteTitle
+      ? title
+      : `${title} | ${siteName}`
     : defaultTitle;
   
   const finalDescription = description || (locale === 'tr' ? defaultDescriptionTR : defaultDescriptionEN);

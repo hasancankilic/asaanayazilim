@@ -101,6 +101,7 @@ export default function ProjectsPage() {
             title="Projelerimiz"
             description="Geçmişten bugüne, farklı sektörlerde gerçekleştirdiğimiz başarılı projeler"
             iconName="FolderKanban"
+            headingLevel="h1"
           />
         </div>
       </section>
@@ -124,6 +125,8 @@ export default function ProjectsPage() {
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      loading="lazy"
+                      decoding="async"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                     
