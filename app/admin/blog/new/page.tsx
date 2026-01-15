@@ -180,7 +180,15 @@ export default function BlogNewPage() {
               <h2 className="text-xl font-bold mb-4">Kapak Görseli</h2>
               {coverImageUrl ? (
                 <div className="relative group">
-                  <img src={coverImageUrl} alt="Cover" className="w-full h-64 object-cover rounded-xl" />
+                  <img
+                    src={coverImageUrl}
+                    alt="Cover"
+                    width={1024}
+                    height={512}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-64 object-cover rounded-xl"
+                  />
                   <button
                     onClick={() => setCoverImageUrl('')}
                     className="absolute top-2 right-2 p-2 bg-red-600 hover:bg-red-700 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"

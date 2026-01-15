@@ -3,6 +3,8 @@ import Footer from '@/components/Footer';
 import SectionHeader from '@/components/SectionHeader';
 import { Link } from '@/i18n/routing';
 import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
+import { generateServicesSchema } from '@/lib/structured-data';
+import Script from 'next/script';
 import ServiceIcon from '@/components/ServiceIcon';
 import ServiceFeatureIcon from '@/components/ServiceFeatureIcon';
 
@@ -82,9 +84,26 @@ const services = [
   },
 ];
 
-export default function ServicesPage() {
+export default async function ServicesPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const resolvedParams = await params;
+  const locale = (resolvedParams?.locale || 'tr') as 'tr' | 'en';
+  const structuredData = generateServicesSchema(locale);
+
   return (
     <main className="min-h-screen">
+      {structuredData.map((data, index) => (
+        <Script
+          key={`services-structured-data-${index}`}
+          id={`services-structured-data-${index}`}
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+        />
+      ))}
       <Navbar />
       
       {/* Hero Section */}

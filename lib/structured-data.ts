@@ -3,6 +3,8 @@
  * Google-approved schema.org markup for AŞAANA YAZILIM
  */
 
+import { CONTACT_INFO } from '@/lib/constants';
+
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://asaanayazilim.com';
 
 export interface StructuredDataOptions {
@@ -12,6 +14,9 @@ export interface StructuredDataOptions {
   url?: string;
   logo?: string;
   locale?: 'tr' | 'en';
+  contactEmail?: string;
+  contactPhone?: string;
+  sameAs?: string[];
 }
 
 /**
@@ -22,10 +27,14 @@ export function generateOrganizationSchema(options: StructuredDataOptions = {}) 
   const description = options.description || 'Modern yazılım çözümleri, mobil uygulama geliştirme, web yazılım, yapay zeka ve danışmanlık hizmetleri';
   const url = options.url || siteUrl;
   const logo = options.logo || `${siteUrl}/logo.png`;
+  const contactEmail = options.contactEmail || CONTACT_INFO.email;
+  const contactPhone = options.contactPhone || CONTACT_INFO.phoneHref?.replace('tel:', '');
+  const sameAs = options.sameAs || [];
 
-  return {
+  const schema: Record<string, any> = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': `${url}#organization`,
     name,
     description,
     url,
@@ -35,18 +44,6 @@ export function generateOrganizationSchema(options: StructuredDataOptions = {}) 
       width: 512,
       height: 512,
     },
-    contactPoint: {
-      '@type': 'ContactPoint',
-      contactType: 'customer service',
-      email: 'info@asaanayazilim.com',
-      availableLanguage: ['Turkish', 'English'],
-    },
-    sameAs: [
-      // Add social media links when available
-      // 'https://www.linkedin.com/company/asaanayazilim',
-      // 'https://twitter.com/asaanayazilim',
-      // 'https://www.facebook.com/asaanayazilim',
-    ],
     foundingDate: '2024', // Update with actual founding date
     address: {
       '@type': 'PostalAddress',
@@ -56,6 +53,22 @@ export function generateOrganizationSchema(options: StructuredDataOptions = {}) 
       // postalCode: '34000', // Add when available
     },
   };
+
+  if (contactEmail || contactPhone) {
+    schema.contactPoint = {
+      '@type': 'ContactPoint',
+      contactType: 'Customer Support',
+      ...(contactEmail ? { email: contactEmail } : {}),
+      ...(contactPhone ? { telephone: contactPhone } : {}),
+      availableLanguage: ['Turkish', 'English'],
+    };
+  }
+
+  if (sameAs.length > 0) {
+    schema.sameAs = sameAs;
+  }
+
+  return schema;
 }
 
 /**
@@ -194,6 +207,52 @@ export function generateHomepageStructuredData(locale: 'tr' | 'en' = 'tr') {
       url: baseUrl,
       locale,
     }),
+    ...generateServicesSchema(locale),
   ];
+}
+
+/**
+ * Generate Service schemas for core offerings
+ */
+export function generateServicesSchema(locale: 'tr' | 'en' = 'tr') {
+  const provider = {
+    '@type': 'Organization',
+    '@id': `${siteUrl}#organization`,
+    name: 'Asaana Yazılım',
+    url: siteUrl,
+  };
+
+  const services = [
+    {
+      name: locale === 'tr' ? 'Web Yazılım' : 'Web Software',
+      description: locale === 'tr'
+        ? 'Ölçeklenebilir ve performanslı web yazılım çözümleri.'
+        : 'Scalable and high-performance web software solutions.',
+    },
+    {
+      name: locale === 'tr' ? 'Mobil Uygulama' : 'Mobile Application',
+      description: locale === 'tr'
+        ? 'iOS ve Android için modern mobil uygulama geliştirme.'
+        : 'Modern mobile application development for iOS and Android.',
+    },
+    {
+      name: locale === 'tr' ? 'Yapay Zeka' : 'Artificial Intelligence',
+      description: locale === 'tr'
+        ? 'Yapay zeka çözümleri ile dijital dönüşüm hızlandırma.'
+        : 'Accelerate digital transformation with AI solutions.',
+    },
+  ];
+
+  return services.map((service) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service.name,
+    description: service.description,
+    provider,
+    areaServed: {
+      '@type': 'Country',
+      name: 'Turkey',
+    },
+  }));
 }
 

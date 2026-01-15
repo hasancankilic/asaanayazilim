@@ -49,9 +49,10 @@ export function generateMetadata({
 
   const localeCode = locale === 'tr' ? 'tr_TR' : 'en_US';
   const alternateLocale = locale === 'tr' ? 'en_US' : 'tr_TR';
-  const alternateUrl = locale === 'tr' 
-    ? fullUrl.replace('/tr', '/en').replace(siteUrl, `${siteUrl}/en`)
-    : fullUrl.replace('/en', '/tr').replace(siteUrl, `${siteUrl}/tr`);
+  const otherLocale = locale === 'tr' ? 'en' : 'tr';
+  const alternateUrl = fullUrl.includes(`/${locale}`)
+    ? fullUrl.replace(`/${locale}`, `/${otherLocale}`)
+    : `${siteUrl}/${otherLocale}${url || ''}`;
 
   return {
     title: finalTitle,
@@ -64,8 +65,8 @@ export function generateMetadata({
     alternates: {
       canonical: fullUrl,
       languages: {
-        'tr-TR': locale === 'tr' ? fullUrl : alternateUrl,
-        'en-US': locale === 'en' ? fullUrl : alternateUrl,
+        tr: locale === 'tr' ? fullUrl : alternateUrl,
+        en: locale === 'en' ? fullUrl : alternateUrl,
         'x-default': `${siteUrl}/tr`,
       },
     },

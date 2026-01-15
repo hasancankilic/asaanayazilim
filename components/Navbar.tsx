@@ -30,8 +30,7 @@ const LogoWithFallback = () => {
       height={128}
       className="w-full h-full object-contain"
       onError={() => setHasError(true)}
-      loading="lazy"
-      priority={false}
+      priority
       quality={85}
     />
   );
