@@ -306,6 +306,13 @@ export default function BlogManagementPage() {
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
+                          onClick={() => window.open(`/blog/${post.slug}`, '_blank')}
+                          className="p-2 bg-green-500/20 hover:bg-green-500/30 text-green-400 rounded-lg transition-colors"
+                          title="Görüntüle"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                        <button
                           onClick={() => handleDelete(post.id, post.title)}
                           className={`p-2 rounded-lg transition-colors ${
                             deleteConfirm === post.id

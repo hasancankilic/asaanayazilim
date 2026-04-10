@@ -5,14 +5,11 @@ import Image from 'next/image';
 import PageTransition from '@/components/PageTransition';
 import DynamicIcon from '@/components/DynamicIcon';
 import ShareButton from '@/components/ShareButton';
-import { fetchSanityData, urlFor, isSanityAvailable } from '@/lib/sanity/client';
-import { blogPostQuery, blogPostsQuery } from '@/lib/sanity/queries';
-import { PortableText } from '@portabletext/react';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 
-export const revalidate = 0; // Always revalidate for real-time updates
+export const revalidate = 3600; // Revalidate every hour
 export const dynamic = 'force-dynamic';
 
 interface BlogPostPageProps {
@@ -21,10 +18,18 @@ interface BlogPostPageProps {
 
 export async function generateStaticParams() {
   try {
-    const posts = await fetchSanityData<any[]>(blogPostsQuery);
-    if (!posts) return [];
-    return posts.map((post: any) => ({
-      id: post.slug.current,
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/blog`, {
+      next: { revalidate: 3600 },
+    });
+    
+    if (!response.ok) return [];
+    
+    const result = await response.json();
+    if (!result.success || !result.data) return [];
+    
+    return result.data.posts.map((post: any) => ({
+      id: post.slug,
     }));
   } catch {
     return [];
@@ -39,7 +44,23 @@ export async function generateMetadata({
   const { generateMetadata: generateSEOMetadata } = await import('@/lib/metadata');
   
   try {
-    const post = await fetchSanityData<any>(blogPostQuery, { slug: id });
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/blog/${id}`, {
+      next: { revalidate: 3600 },
+    });
+    
+    if (!response.ok) {
+      return generateSEOMetadata({
+        title: locale === 'tr' ? 'Blog Yazısı Bulunamadı' : 'Blog Post Not Found',
+        description: locale === 'tr' ? 'Aradığınız blog yazısı bulunamadı.' : 'The blog post you are looking for was not found.',
+        locale: locale as 'tr' | 'en',
+        url: locale === 'tr' ? `/tr/blog/${id}` : `/en/blog/${id}`,
+        type: 'article',
+      });
+    }
+    
+    const result = await response.json();
+    const post = result.data.post;
     
     if (!post) {
       return generateSEOMetadata({
@@ -51,9 +72,9 @@ export async function generateMetadata({
       });
     }
     
-    const seoTitle = post.seoTitle || post.title || (locale === 'tr' ? 'Blog - AŞAANA YAZILIM' : 'Blog - AŞAANA YAZILIM');
-    const seoDescription = post.seoDescription || post.excerpt || (locale === 'tr' ? 'AŞAANA YAZILIM blog yazısı' : 'AŞAANA YAZILIM blog post');
-    const seoImage = post.mainImage ? urlFor(post.mainImage).url() : undefined;
+    const seoTitle = post.seoTitle || post.title;
+    const seoDescription = post.seoDescription || post.excerpt;
+    const seoImage = post.coverImageUrl || undefined;
     
     return generateSEOMetadata({
       title: seoTitle,
@@ -64,7 +85,6 @@ export async function generateMetadata({
       type: 'article',
     });
   } catch {
-    const { generateMetadata: generateSEOMetadata } = await import('@/lib/metadata');
     return generateSEOMetadata({
       title: locale === 'tr' ? 'Blog - AŞAANA YAZILIM' : 'Blog - AŞAANA YAZILIM',
       description: locale === 'tr' ? 'AŞAANA YAZILIM blog' : 'AŞAANA YAZILIM blog',
@@ -83,7 +103,17 @@ export default async function BlogPostPage({
   let post: any = null;
 
   try {
-    post = await fetchSanityData<any>(blogPostQuery, { slug: id });
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/blog/${id}`, {
+      next: { revalidate: 3600 },
+    });
+    
+    if (response.ok) {
+      const result = await response.json();
+      if (result.success && result.data) {
+        post = result.data.post;
+      }
+    }
   } catch (error) {
     console.error('Error fetching blog post:', error);
   }
@@ -94,7 +124,7 @@ export default async function BlogPostPage({
 
   const publishedDate = post.publishedAt
     ? new Date(post.publishedAt)
-    : new Date(post._createdAt);
+    : new Date(post.createdAt);
 
   return (
     <main className="min-h-screen">
@@ -116,11 +146,6 @@ export default async function BlogPostPage({
           </Link>
 
           <div className="mb-8">
-            {post.category && (
-              <div className="inline-block px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full text-white text-sm font-medium mb-4">
-                {post.category}
-              </div>
-            )}
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
               {post.title}
             </h1>
@@ -142,12 +167,12 @@ export default async function BlogPostPage({
 
       <PageTransition>
         {/* Featured Image */}
-        {(post.mainImage || post.coverImage) && (
+        {post.coverImageUrl && (
           <section className="px-4 sm:px-6 lg:px-8 mb-12">
             <div className="max-w-4xl mx-auto">
               <div className="relative h-96 rounded-2xl overflow-hidden">
                 <Image
-                  src={(post.mainImage || post.coverImage)?.asset?.url || '/images/placeholder.jpg'}
+                  src={post.coverImageUrl}
                   alt={post.title}
                   fill
                   sizes="100vw"
@@ -163,8 +188,8 @@ export default async function BlogPostPage({
         <article className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 to-slate-800">
           <div className="max-w-4xl mx-auto">
             <div className="glass-card rounded-2xl p-8 md:p-12">
-              <div className="prose prose-invert max-w-none text-white/80 leading-relaxed prose-headings:text-white prose-h2:text-3xl prose-h2:font-bold prose-h2:mt-12 prose-h2:mb-6 prose-p:text-lg prose-p:leading-relaxed prose-p:mb-6 prose-strong:text-white prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline prose-ul:text-lg prose-li:text-white/80">
-                {post.content && <PortableText value={post.content} />}
+              <div className="prose prose-invert max-w-none text-white/80 leading-relaxed prose-headings:text-white prose-h2:text-3xl prose-h2:font-bold prose-h2:mt-12 prose-h2:mb-6 prose-p:text-lg prose-p:leading-relaxed prose-p:mb-6 prose-strong:text-white prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline prose-ul:text-lg prose-li:text-white/80 whitespace-pre-wrap">
+                {post.content}
               </div>
             </div>
 
@@ -175,7 +200,7 @@ export default async function BlogPostPage({
                   <h3 className="text-xl font-semibold text-white mb-2">{t('shareTitle')}</h3>
                   <p className="text-white/60">{t('shareDescription')}</p>
                 </div>
-                <ShareButton title={post.title} slug={post.slug.current} locale={locale || 'tr'} />
+                <ShareButton title={post.title} slug={post.slug} locale={locale || 'tr'} />
               </div>
             </div>
           </div>

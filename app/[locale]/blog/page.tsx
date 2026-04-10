@@ -4,13 +4,11 @@ import SectionHeader from '@/components/SectionHeader';
 import EmptyState from '@/components/EmptyState';
 import { Link } from '@/i18n/routing';
 import Image from 'next/image';
-import { fetchSanityData, isSanityAvailable } from '@/lib/sanity/client';
-import { blogPostsQuery } from '@/lib/sanity/queries';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import DynamicIcon from '@/components/DynamicIcon';
 
-export const revalidate = 0; // Always revalidate for real-time updates
+export const revalidate = 3600; // Revalidate every hour
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
@@ -41,23 +39,22 @@ export default async function BlogPage({
   const t = await getTranslations('blog');
   
   let blogPosts: any[] = [];
-  let hasError = false;
-  let isConfigured = false;
 
-  // Check if Sanity is configured
-  isConfigured = isSanityAvailable();
-
-  if (isConfigured) {
-    // Try to fetch blog posts
-    const result = await fetchSanityData<any[]>(blogPostsQuery);
-    if (result) {
-      blogPosts = result;
-    } else {
-      hasError = true;
+  try {
+    // Fetch from Prisma via API
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/blog`, {
+      next: { revalidate: 3600 },
+    });
+    
+    if (response.ok) {
+      const result = await response.json();
+      if (result.success && result.data) {
+        blogPosts = result.data.posts || [];
+      }
     }
-  } else {
-    // Sanity not configured - show friendly message
-    hasError = true;
+  } catch (error) {
+    console.error('Error fetching blog posts:', error);
   }
 
   return (
@@ -83,14 +80,7 @@ export default async function BlogPage({
       {/* Blog Posts Grid */}
       <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800">
         <div className="max-w-7xl mx-auto">
-          {!isConfigured ? (
-            <EmptyState
-              title={t('emptyState.notConfiguredTitle')}
-              description={t('emptyState.notConfiguredDescription')}
-              actionLabel={t('emptyState.actionLabel')}
-              actionHref="/"
-            />
-          ) : hasError || blogPosts.length === 0 ? (
+          {blogPosts.length === 0 ? (
             <EmptyState
               title={t('emptyState.title')}
               description={t('emptyState.description')}
