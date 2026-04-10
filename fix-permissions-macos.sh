@@ -63,3 +63,4 @@ echo "Eğer hala sorun varsa, node_modules'ü yeniden kurun:"
 echo "  rm -rf node_modules package-lock.json"
 echo "  npm install"
 
+

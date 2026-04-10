@@ -11,3 +11,4 @@ export default function SparklesIcon({ className = "w-8 h-8 text-blue-400" }: Sp
   return <IconWrapper Icon={Sparkles} className={className} />;
 }
 
+
