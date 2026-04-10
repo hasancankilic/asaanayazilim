@@ -8,14 +8,14 @@ import { generateSlug, generateUniqueSlug } from '@/lib/slug';
 const createBlogPostSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   slug: z.string().optional(),
-  excerpt: z.string().optional(),
+  excerpt: z.string().optional().nullable(),
   content: z.string().min(1, 'Content is required'),
-  coverImageUrl: z.string().url().optional().or(z.literal('')),
-  galleryImages: z.array(z.string().url()).optional(),
-  seoTitle: z.string().optional(),
-  seoDescription: z.string().optional(),
-  canonicalUrl: z.string().url().optional().or(z.literal('')),
-  ogImageUrl: z.string().url().optional().or(z.literal('')),
+  coverImageUrl: z.string().optional().nullable(),
+  galleryImages: z.array(z.string()).optional(),
+  seoTitle: z.string().optional().nullable(),
+  seoDescription: z.string().optional().nullable(),
+  canonicalUrl: z.string().optional().nullable(),
+  ogImageUrl: z.string().optional().nullable(),
   status: z.enum(['DRAFT', 'PUBLISHED']).default('DRAFT'),
 });
 

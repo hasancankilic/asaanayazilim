@@ -1,12 +1,7 @@
 import { prisma } from '@/lib/db';
 
-export async function GET(
-  request: Request,
-  { params }: { params: { locale: string } }
-) {
+export async function GET() {
   try {
-    const locale = params.locale || 'tr';
-    
     // Only fetch published posts for public
     const posts = await prisma.blogPost.findMany({
       where: {
