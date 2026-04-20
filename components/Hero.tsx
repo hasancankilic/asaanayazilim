@@ -4,20 +4,37 @@ import { motion } from "framer-motion";
 import { Link } from "@/i18n/routing";
 import { ArrowRight, Sparkles } from "@/lib/icons";
 import { useTranslations } from "next-intl";
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
 
 const Hero = () => {
   const t = useTranslations();
+  const [shouldReduceMotion, setShouldReduceMotion] = useState(false);
+
+  // Check for reduced motion preference
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setShouldReduceMotion(mediaQuery.matches);
+    
+    const handleChange = (e: MediaQueryListEvent) => {
+      setShouldReduceMotion(e.matches);
+    };
+    
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
 
   // Pre-calculate particle positions to avoid Math.random() in render/animate
   const particles = useMemo(() => 
-    Array.from({ length: 6 }, () => ({
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      targetY: Math.random() * 100,
-      duration: 3 + Math.random() * 2,
-      delay: Math.random() * 2,
-    })), []
+    shouldReduceMotion 
+      ? [] // Disable particles for users who prefer reduced motion
+      : Array.from({ length: 6 }, () => ({
+          x: Math.random() * 100,
+          y: Math.random() * 100,
+          targetY: Math.random() * 100,
+          duration: 3 + Math.random() * 2,
+          delay: Math.random() * 2,
+        })), 
+    [shouldReduceMotion]
   );
 
   return (

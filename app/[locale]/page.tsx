@@ -17,6 +17,10 @@ const FeaturedProjects = dynamic(() => import('@/components/FeaturedProjects'), 
   ssr: false,
   loading: () => <div className="min-h-[520px]" aria-hidden="true" />,
 });
+const Testimonials = dynamic(() => import('@/components/Testimonials'), {
+  ssr: false,
+  loading: () => <div className="min-h-[520px]" aria-hidden="true" />,
+});
 const CTA = dynamic(() => import('@/components/CTA'), {
   ssr: false,
   loading: () => <div className="min-h-[320px]" aria-hidden="true" />,
@@ -74,6 +78,7 @@ export default async function HomePage({
       <Services />
       <WhyUs />
       <FeaturedProjects />
+      <Testimonials />
       <CTA />
       <Footer />
     </>

@@ -80,6 +80,8 @@ export {
   Lightbulb,
   Activity,
   Zap,
+  Star,
+  Quote,
 } from 'lucide-react';
 
 // Social & Media

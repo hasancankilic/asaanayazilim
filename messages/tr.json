@@ -64,6 +64,16 @@
     "title": "Projenizi birlikte hayata geçirelim.",
     "button": "Hemen İletişime Geçin"
   },
+  "testimonials": {
+    "title": "Müşterilerimiz Ne Diyor?",
+    "subtitle": "Başarılı projelerimiz ve mutlu müşterilerimizden bazıları",
+    "stats": {
+      "projects": "Tamamlanan Proje",
+      "clients": "Mutlu Müşteri",
+      "rating": "Ortalama Puan",
+      "support": "Destek"
+    }
+  },
   "footer": {
     "links": "Bağlantılar",
     "contact": "İletişim",
@@ -73,7 +83,19 @@
     "blog": "Blog",
     "kvkk": "KVKK",
     "privacy": "Gizlilik Politikası",
-    "rights": "Tüm hakları saklıdır."
+    "rights": "Tüm hakları saklıdır.",
+    "newsletter": {
+      "title": "Bültene Abone Olun",
+      "description": "En son haberler ve güncellemeler için abone olun"
+    }
+  },
+  "newsletter": {
+    "namePlaceholder": "Adınız (isteğe bağlı)",
+    "emailPlaceholder": "E-posta adresiniz",
+    "submit": "Abone Ol",
+    "privacy": "E-posta adresiniz güvenli. İstediğiniz zaman abonelikten çıkabilirsiniz.",
+    "success": "Abonelik Başarılı!",
+    "successMessage": "Bültene başarıyla abone oldunuz. Teşekkür ederiz!"
   },
   "notFound": {
     "title": "Sayfa Bulunamadı",

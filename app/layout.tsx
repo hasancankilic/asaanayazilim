@@ -1,8 +1,17 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import { defaultMetadata } from '@/lib/metadata';
 import { generateOrganizationSchema, generateWebSiteSchema } from '@/lib/structured-data';
+
+// Optimize font loading with next/font
+const inter = Inter({
+  subsets: ['latin', 'latin-ext'],
+  display: 'swap',
+  variable: '--font-inter',
+  preload: true,
+});
 
 export const metadata: Metadata = defaultMetadata;
 
@@ -31,8 +40,11 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#1e293b" />
         <meta name="msapplication-TileColor" content="#1e293b" />
+        
+        {/* Preload critical resources */}
+        <link rel="preload" href="/logo.png" as="image" />
       </head>
-      <body className="min-h-screen bg-slate-900 text-white antialiased relative" suppressHydrationWarning>
+      <body className={`min-h-screen bg-slate-900 text-white antialiased relative ${inter.variable}`} style={{ fontFamily: 'var(--font-inter), system-ui, sans-serif' }} suppressHydrationWarning>
         {process.env.NEXT_PUBLIC_GA_ID && (
           <>
             <Script

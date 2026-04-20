@@ -64,6 +64,16 @@
     "title": "Let's bring your project to life together.",
     "button": "Contact Us Now"
   },
+  "testimonials": {
+    "title": "What Our Clients Say",
+    "subtitle": "Some of our successful projects and happy clients",
+    "stats": {
+      "projects": "Completed Projects",
+      "clients": "Happy Clients",
+      "rating": "Average Rating",
+      "support": "Support"
+    }
+  },
   "footer": {
     "links": "Links",
     "contact": "Contact",
@@ -73,7 +83,19 @@
     "blog": "Blog",
     "kvkk": "KVKK",
     "privacy": "Privacy Policy",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "newsletter": {
+      "title": "Subscribe to Newsletter",
+      "description": "Subscribe for the latest news and updates"
+    }
+  },
+  "newsletter": {
+    "namePlaceholder": "Your name (optional)",
+    "emailPlaceholder": "Your email address",
+    "submit": "Subscribe",
+    "privacy": "Your email is secure. You can unsubscribe at any time.",
+    "success": "Subscription Successful!",
+    "successMessage": "You have successfully subscribed to the newsletter. Thank you!"
   },
   "notFound": {
     "title": "Page Not Found",

@@ -6,6 +6,7 @@ import { useState, memo } from "react";
 import { CONTACT_INFO } from "@/lib/constants";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import NewsletterForm from "./NewsletterForm";
 
 const LogoWithFallback = () => {
   const [hasError, setHasError] = useState(false);
@@ -159,6 +160,23 @@ const Footer = () => {
               >
                 <Mail className="w-5 h-5" />
               </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Newsletter Section */}
+        <div className="border-t border-white/10 pt-8 sm:pt-12 mb-8">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h3 className="text-white font-bold text-xl sm:text-2xl mb-2">
+                {t('footer.newsletter.title')}
+              </h3>
+              <p className="text-white/70 text-sm sm:text-base">
+                {t('footer.newsletter.description')}
+              </p>
+            </div>
+            <div className="max-w-md">
+              <NewsletterForm />
             </div>
           </div>
         </div>
