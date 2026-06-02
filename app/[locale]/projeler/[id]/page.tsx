@@ -8,6 +8,42 @@ import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
 import type { Metadata } from 'next';
 
 const projectDetails: Record<string, any> = {
+  'asaana-erp': {
+    title: 'Asaana ERP - Kurumsal Kaynak Planlama Sistemi',
+    description: 'İşletmelerin tüm operasyonel süreçlerini tek bir platformda birleştiren kapsamlı ERP çözümü. Stok yönetiminden sipariş takibine, müşteri ilişkilerinden finansal raporlamaya, filo yönetiminden depo operasyonlarına kadar uçtan uca iş yönetimi.',
+    image: '/images/projects/erp/dashboard.jpg',
+    technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Node.js', 'Prisma', 'SQLite', 'Framer Motion'],
+    features: [
+      'Dashboard & KPI Analiz — Gerçek zamanlı finansal performans, stok değeri, gelir-gider takibi',
+      'Ürün & Stok Yönetimi — SKU bazlı ürün takibi, düşük stok uyarıları, depo transferi',
+      'Sipariş Yönetimi — Sipariş oluşturma, durum takibi (Beklemede/İşlemde/Tamamlandı)',
+      'Müşteri Yönetimi (CRM) — Müşteri veritabanı, iletişim bilgileri, vergi kayıtları',
+      'Finans & Muhasebe — Maaş ödemeleri, avans takibi, kesintiler, nakit akışı',
+      'Filo Yönetimi — Araç takibi, bakım planlama, maliyet analizi, sürücü yönetimi',
+      'Depo Yönetimi — Çoklu depo desteği, palet doluluk oranı, envanter günlüğü',
+      'Raporlama & Analitik — Aylık döküm, maliyet grafikleri, satış performansı',
+      'Çoklu Kullanıcı & Rol Yönetimi — Yönetici/çalışan rolleri, işlem geçmişi',
+    ],
+    result: 'İşletme operasyonlarında %60 verimlilik artışı, stok maliyetlerinde %25 azalma, sipariş işleme süresinde %50 hızlanma sağlandı.',
+    category: 'ERP / SaaS',
+    date: '2026 Q1',
+    gradient: 'from-blue-600 to-indigo-600',
+    gallery: [
+      { src: '/images/projects/erp/dashboard.jpg', label: 'Ana Dashboard — KPI Kartları & Finansal Performans' },
+      { src: '/images/projects/erp/products.jpg', label: 'Ürün Listesi — Stok Takibi & Kategori Yönetimi' },
+      { src: '/images/projects/erp/customers.jpg', label: 'Müşteri Yönetimi — CRM Modülü' },
+      { src: '/images/projects/erp/orders.jpg', label: 'Sipariş Yönetimi — Durum Takibi' },
+      { src: '/images/projects/erp/finance.jpg', label: 'Finans & Muhasebe — Maaş, Avans, Kesintiler' },
+      { src: '/images/projects/erp/driver-management.jpg', label: 'Sürücü Yönetimi & Ödemeler' },
+      { src: '/images/projects/erp/fleet-cost.jpg', label: 'Filo Maliyet Analizi' },
+      { src: '/images/projects/erp/maintenance.jpg', label: 'Bakım Planlama & Servis Takibi' },
+      { src: '/images/projects/erp/vehicles.jpg', label: 'Araç Yönetimi & Durum Takibi' },
+      { src: '/images/projects/erp/warehouse.jpg', label: 'Depo Envanteri — SKU Bazlı Takip' },
+      { src: '/images/projects/erp/warehouse-list.jpg', label: 'Depo Listesi — Çoklu Depo Desteği' },
+      { src: '/images/projects/erp/inventory-log.jpg', label: 'Hareket Günlüğü & Denetim Analizleri' },
+      { src: '/images/projects/erp/overview.jpg', label: 'Genel Bakış — Nakit Akışı & İşlem Geçmişi' },
+    ],
+  },
   'project-1': {
     title: 'Modern Bina Yönetim Sistemi',
     description: 'Akıllı bina yönetimi için kapsamlı yazılım çözümü. Otomasyon, güvenlik ve enerji yönetimi tek platformda.',
@@ -231,6 +267,39 @@ export default async function ProjectDetailPage({
             </div>
           </div>
         </section>
+
+        {/* Gallery - Module Screenshots */}
+        {project.gallery && (
+          <section className="px-4 sm:px-6 lg:px-8 mb-12">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-3xl font-semibold text-white mb-8 flex items-center gap-3">
+                <DynamicIcon iconName="Images" className="w-8 h-8 text-blue-400" />
+                Modül Ekran Görüntüleri
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {project.gallery.map((item: { src: string; label: string }, idx: number) => (
+                  <div key={idx} className="glass-card rounded-xl overflow-hidden group hover:border-blue-400/60 transition-all duration-300">
+                    <div className="relative h-56 overflow-hidden">
+                      <Image
+                        src={item.src}
+                        alt={item.label}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                      <div className="absolute bottom-0 left-0 right-0 p-4">
+                        <p className="text-white text-sm font-medium">{item.label}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Content */}
         <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 to-slate-800">

@@ -48,6 +48,7 @@ export {
   Eye,
   EyeOff,
   Image as ImageIcon,
+  Images,
   Upload,
 } from 'lucide-react';
 

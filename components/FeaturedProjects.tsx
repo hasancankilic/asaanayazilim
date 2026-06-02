@@ -6,6 +6,11 @@ import Image from "next/image";
 
 const projects = [
   {
+    id: "asaana-erp",
+    title: "Asaana ERP - Kurumsal Kaynak Planlama",
+    image: "/images/projects/erp/dashboard.jpg",
+  },
+  {
     id: "project-1",
     title: "Modern Bina Yönetim Sistemi",
     image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop",
@@ -14,11 +19,6 @@ const projects = [
     id: "project-2",
     title: "Yazılım Geliştirme Platformu",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
-  },
-  {
-    id: "project-3",
-    title: "Kod Geliştirme Araçları",
-    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop",
   },
 ];
 

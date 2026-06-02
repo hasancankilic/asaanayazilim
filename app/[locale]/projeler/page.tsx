@@ -30,6 +30,15 @@ export async function generateMetadata({
 
 const projects = [
   {
+    id: 'asaana-erp',
+    title: 'Asaana ERP - Kurumsal Kaynak Planlama Sistemi',
+    description: 'Kapsamlı işletme yönetimi: stok, sipariş, müşteri, finans, filo ve depo yönetimi tek platformda.',
+    image: '/images/projects/erp/dashboard.jpg',
+    category: 'ERP / SaaS',
+    date: '2026 Q1',
+    gradient: 'from-blue-600 to-indigo-600',
+  },
+  {
     id: 'project-1',
     title: 'Modern Bina Yönetim Sistemi',
     description: 'Akıllı bina yönetimi için kapsamlı yazılım çözümü',
