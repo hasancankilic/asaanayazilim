@@ -1,6 +1,5 @@
 {
   "buildCommand": "npx prisma generate && npx next build",
-  "installCommand": "npm install --ignore-scripts && npx prisma generate",
   "framework": "nextjs",
   "regions": ["iad1"]
 }
