@@ -56,3 +56,4 @@ prisma/*.db-journal
 # Uploads (keep directory, ignore files)
 public/uploads/*
 !public/uploads/.gitkeep
+.env*
