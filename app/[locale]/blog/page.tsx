@@ -81,12 +81,37 @@ export default async function BlogPage({
       <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800">
         <div className="max-w-7xl mx-auto">
           {blogPosts.length === 0 ? (
-            <EmptyState
-              title={t('emptyState.title')}
-              description={t('emptyState.description')}
-              actionLabel={t('emptyState.actionLabel')}
-              actionHref="/"
-            />
+            <>
+              {/* SEO Categories & Topics */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                {[
+                  { name: 'ERP Yazılımı', icon: '📊', topics: ['ERP nedir ve nasıl çalışır?', '2026 ERP yazılımı maliyetleri', 'KOBİ için en iyi ERP sistemleri', 'Özel ERP vs hazır ERP karşılaştırma'] },
+                  { name: 'Yazılım Geliştirme', icon: '💻', topics: ['Özel yazılım firması nasıl seçilir?', 'Yazılım projesi maliyet hesaplama', 'Agile yazılım geliştirme süreci', 'Next.js vs React karşılaştırma'] },
+                  { name: 'Mobil Uygulama', icon: '📱', topics: ['Mobil uygulama geliştirme maliyeti 2026', 'React Native vs Flutter karşılaştırma', 'iOS ve Android uygulama geliştirme', 'Uygulama mağaza optimizasyonu (ASO)'] },
+                  { name: 'İş Otomasyon', icon: '🤖', topics: ['İş süreçleri otomasyonu rehberi', 'Dijital dönüşüm stratejileri', 'Web uygulaması vs web sitesi farkı', 'Bulut bilişim avantajları'] },
+                  { name: 'Yapay Zeka', icon: '🧠', topics: ['Yapay zeka iş dünyasında kullanım alanları', 'AI destekli müşteri hizmetleri', 'Makine öğrenmesi temel rehberi', 'ChatGPT entegrasyonu nasıl yapılır?'] },
+                  { name: 'SEO & Dijital Pazarlama', icon: '🚀', topics: ['Teknik SEO optimizasyonu rehberi', 'Core Web Vitals iyileştirme', 'Yazılım firması için dijital pazarlama', 'Google’da üst sıralara çıkma stratejileri'] },
+                ].map((category, idx) => (
+                  <div key={idx} className="glass-card rounded-xl p-6 hover:border-blue-400/40 transition-all">
+                    <div className="text-3xl mb-3">{category.icon}</div>
+                    <h3 className="text-lg font-bold text-white mb-3">{category.name}</h3>
+                    <ul className="space-y-2">
+                      {category.topics.map((topic, tidx) => (
+                        <li key={tidx} className="flex items-start gap-2 text-sm text-white/60">
+                          <span className="text-blue-400 mt-0.5">›</span> {topic}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+              <EmptyState
+                title={t('emptyState.title')}
+                description={t('emptyState.description')}
+                actionLabel={t('emptyState.actionLabel')}
+                actionHref="/"
+              />
+            </>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {blogPosts.map((post) => (

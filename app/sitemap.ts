@@ -15,6 +15,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/blog',
     '/projeler',
     '/hizmetler',
+    '/erp-yazilimi',
+    '/ozel-yazilim',
+    '/mobil-uygulama-gelistirme',
+    '/web-gelistirme',
   ];
 
   const staticPages: MetadataRoute.Sitemap = [];
@@ -25,7 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         url: `${baseUrl}/${locale}${route}`,
         lastModified: new Date(),
         changeFrequency: 'weekly' as const,
-        priority: route === '' ? 1 : 0.8,
+        priority: route === '' ? 1 : ['/erp-yazilimi', '/ozel-yazilim', '/mobil-uygulama-gelistirme', '/web-gelistirme'].includes(route) ? 0.9 : 0.8,
         alternates: {
           languages: {
             tr: `${baseUrl}/tr${route}`,

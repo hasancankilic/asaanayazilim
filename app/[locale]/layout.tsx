@@ -8,6 +8,7 @@ import Script from 'next/script';
 import '../globals.css';
 import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
 import { generateHomepageStructuredData } from '@/lib/structured-data';
+import WhatsAppButton from '@/components/WhatsAppButton';
 
 export async function generateMetadata({
   params,
@@ -90,6 +91,7 @@ export default async function LocaleLayout({
       ))}
       <NextIntlClientProvider messages={messages}>
         {children}
+        <WhatsAppButton />
       </NextIntlClientProvider>
       <Analytics />
       <SpeedInsights />

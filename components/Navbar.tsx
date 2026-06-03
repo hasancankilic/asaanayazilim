@@ -71,6 +71,13 @@ const Navbar = () => {
     { key: "contact", href: "/iletisim" },
   ];
 
+  const serviceLinks = [
+    { href: "/erp-yazilimi", label: "ERP Yazılımı" },
+    { href: "/ozel-yazilim", label: "Özel Yazılım" },
+    { href: "/mobil-uygulama-gelistirme", label: "Mobil Uygulama" },
+    { href: "/web-gelistirme", label: "Web Geliştirme" },
+  ];
+
   return (
     <motion.nav
       initial={false}
@@ -97,14 +104,48 @@ const Navbar = () => {
           {/* Desktop Navigation Links */}
           <div className="hidden lg:flex items-center space-x-8">
             {navItems.map((item) => (
-              <Link
-                key={item.key}
-                href={item.href}
-                className="relative text-white/90 hover:text-white transition-colors group"
-              >
-                {t(`nav.${item.key}`)}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-400 group-hover:w-full transition-all duration-300"></span>
-              </Link>
+              item.key === "services" ? (
+                <div key={item.key} className="relative group">
+                  <Link
+                    href={item.href}
+                    className="relative text-white/90 hover:text-white transition-colors"
+                  >
+                    {t(`nav.${item.key}`)}
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-400 group-hover:w-full transition-all duration-300"></span>
+                  </Link>
+                  {/* Dropdown */}
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    <div className="bg-slate-800/95 backdrop-blur-md border border-white/10 rounded-xl p-2 min-w-[200px] shadow-xl">
+                      {serviceLinks.map((link) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          className="block px-4 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
+                      <div className="border-t border-white/10 mt-1 pt-1">
+                        <Link
+                          href="/hizmetler"
+                          className="block px-4 py-2.5 text-sm text-blue-400 hover:text-blue-300 hover:bg-white/5 rounded-lg transition-colors font-medium"
+                        >
+                          Tüm Hizmetler →
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <Link
+                  key={item.key}
+                  href={item.href}
+                  className="relative text-white/90 hover:text-white transition-colors group"
+                >
+                  {t(`nav.${item.key}`)}
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-400 group-hover:w-full transition-all duration-300"></span>
+                </Link>
+              )
             ))}
           </div>
 
@@ -147,13 +188,27 @@ const Navbar = () => {
           >
             <div className="px-4 py-6 space-y-4">
               {navItems.map((item) => (
-                <Link
-                  key={item.key}
-                  href={item.href}
-                  className="block text-white/90 hover:text-white transition-colors py-2 text-lg"
-                >
-                  {t(`nav.${item.key}`)}
-                </Link>
+                <div key={item.key}>
+                  <Link
+                    href={item.href}
+                    className="block text-white/90 hover:text-white transition-colors py-2 text-lg"
+                  >
+                    {t(`nav.${item.key}`)}
+                  </Link>
+                  {item.key === "services" && (
+                    <div className="pl-4 border-l border-white/10 mt-1 space-y-1">
+                      {serviceLinks.map((link) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          className="block text-white/60 hover:text-white/90 transition-colors py-1.5 text-sm"
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
               <div className="pt-4 border-t border-white/10 flex items-center justify-between">
                 <LanguageSwitcher />

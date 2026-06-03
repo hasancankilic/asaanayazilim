@@ -47,11 +47,11 @@ export async function generateMetadata({
 
   return generateSEOMetadata({
     title: locale === 'tr'
-      ? 'Asaana Yazılım | Web, Mobil ve Yapay Zeka Çözümleri'
-      : 'Asaana Software | Web, Mobile and AI Solutions',
+      ? 'AŞAANA YAZILIM | ERP Yazılımı, Özel Yazılım, Mobil & Web Geliştirme'
+      : 'AŞAANA YAZILIM | ERP Software, Custom Software, Mobile & Web Development',
     description: locale === 'tr'
-      ? 'Asaana Yazılım; web yazılım, mobil uygulama ve yapay zeka çözümleriyle markaların dijital dönüşümünü hızlandırır.'
-      : 'Asaana Software accelerates digital transformation with web, mobile, and AI solutions.',
+      ? 'İstanbul merkezli yazılım firması. ERP yazılımı, özel yazılım geliştirme, mobil uygulama ve web uygulama çözümleri. Ücretsiz danışmanlık için arayın.'
+      : 'Istanbul-based software company. ERP software, custom development, mobile apps and web solutions. Call for free consultation.',
     absoluteTitle: true,
     locale,
     url,

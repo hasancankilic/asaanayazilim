@@ -35,28 +35,44 @@ export async function generateMetadata({
 
 const services = [
   {
+    id: 'erp-yazilimi',
+    name: 'ERP Yazılımı',
+    iconName: 'Database',
+    description: 'İşletmenize özel kurumsal kaynak planlama sistemi. Stok, sipariş, CRM, finans tek platformda.',
+    gradient: 'from-blue-600 to-indigo-600',
+    features: ['Stok Yönetimi', 'Sipariş Takibi', 'Finans & Raporlama'],
+    landingPage: '/erp-yazilimi',
+    featured: true,
+  },
+  {
+    id: 'ozel-yazilim',
+    name: 'Özel Yazılım',
+    iconName: 'Code',
+    description: 'İşletmenize %100 özel web, mobil ve kurumsal yazılım geliştirme hizmeti.',
+    gradient: 'from-purple-500 to-pink-500',
+    features: ['Web Uygulamaları', 'API & Entegrasyon', 'İş Otomasyon'],
+    landingPage: '/ozel-yazilim',
+    featured: true,
+  },
+  {
     id: 'mobil-uygulama',
     name: 'Mobil Uygulama',
     iconName: 'Smartphone',
     description: 'iOS ve Android platformları için modern mobil uygulamalar',
     gradient: 'from-blue-500 to-cyan-500',
     features: ['React Native', 'Flutter', 'Native Performance'],
+    landingPage: '/mobil-uygulama-gelistirme',
+    featured: true,
   },
   {
     id: 'web-yazilim',
     name: 'Web Yazılım',
     iconName: 'Monitor',
     description: 'Ölçeklenebilir ve performanslı web uygulamaları',
-    gradient: 'from-purple-500 to-pink-500',
+    gradient: 'from-emerald-500 to-teal-500',
     features: ['Next.js', 'React', 'TypeScript'],
-  },
-  {
-    id: 'saas-cozumleri',
-    name: 'SaaS Çözümleri',
-    iconName: 'Code',
-    description: 'Bulut tabanlı yazılım hizmetleri',
-    gradient: 'from-indigo-500 to-blue-500',
-    features: ['Multi-tenant', 'Auto-scaling', 'API First'],
+    landingPage: '/web-gelistirme',
+    featured: true,
   },
   {
     id: 'yapay-zeka',
@@ -73,14 +89,6 @@ const services = [
     description: 'Kullanıcı odaklı tasarım çözümleri',
     gradient: 'from-pink-500 to-rose-500',
     features: ['User Research', 'Prototyping', 'Design Systems'],
-  },
-  {
-    id: 'danismanlik',
-    name: 'Danışmanlık',
-    iconName: 'MessageSquare',
-    description: 'Teknoloji danışmanlık hizmetleri',
-    gradient: 'from-teal-500 to-green-500',
-    features: ['Tech Audit', 'Architecture', 'DevOps'],
   },
 ];
 
@@ -131,7 +139,7 @@ export default async function ServicesPage({
               return (
                 <Link
                   key={service.id}
-                  href={`/hizmetler/${service.id}`}
+                  href={service.landingPage || `/hizmetler/${service.id}`}
                   className="group block"
                 >
                   <div className="glass-card rounded-2xl p-8 h-full cursor-pointer transition-all duration-300 hover:border-blue-400/60 hover:shadow-2xl hover:shadow-blue-500/20 hover:scale-[1.02] relative overflow-hidden">

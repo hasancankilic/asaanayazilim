@@ -3,7 +3,7 @@ import Script from 'next/script';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { defaultMetadata } from '@/lib/metadata';
-import { generateOrganizationSchema, generateWebSiteSchema } from '@/lib/structured-data';
+import { generateOrganizationSchema, generateWebSiteSchema, generateLocalBusinessSchema } from '@/lib/structured-data';
 
 // Optimize font loading with next/font
 const inter = Inter({
@@ -25,6 +25,7 @@ export default function RootLayout({
   // Generate comprehensive JSON-LD structured data
   const structuredData = [
     generateOrganizationSchema({ url: siteUrl }),
+    generateLocalBusinessSchema({ url: siteUrl }),
     generateWebSiteSchema({ url: siteUrl, locale: 'tr' }),
   ];
 

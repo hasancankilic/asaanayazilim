@@ -24,18 +24,21 @@ const Services = () => {
       key: "mobile",
       icon: Smartphone,
       gradient: "from-blue-500 to-cyan-500",
+      landingPage: "/mobil-uygulama-gelistirme",
     },
     {
       id: "web-yazilim",
       key: "web",
       icon: Monitor,
       gradient: "from-purple-500 to-pink-500",
+      landingPage: "/web-gelistirme",
     },
     {
       id: "saas-cozumleri",
       key: "saas",
       icon: Code,
       gradient: "from-indigo-500 to-blue-500",
+      landingPage: "/ozel-yazilim",
     },
     {
       id: "yapay-zeka",
@@ -89,7 +92,7 @@ const Services = () => {
                 className="group"
               >
                 <Link
-                  href={`/hizmetler/${service.id}`}
+                  href={service.landingPage || `/hizmetler/${service.id}`}
                   className="block h-full glass-card rounded-2xl p-6 sm:p-8 cursor-pointer transition-transform duration-300 hover:border-blue-400/60 hover:shadow-2xl hover:shadow-blue-500/20 hover:scale-[1.02] relative overflow-hidden"
                 >
                   {/* Gradient Background */}

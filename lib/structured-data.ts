@@ -120,8 +120,7 @@ export function generateLocalBusinessSchema(options: StructuredDataOptions = {})
       opens: '09:00',
       closes: '18:00',
     },
-    priceRange: '$$',
-    servesCuisine: 'Software Development Services',
+    priceRange: '₺₺₺',
     areaServed: {
       '@type': 'Country',
       name: 'Turkey',
@@ -224,22 +223,28 @@ export function generateServicesSchema(locale: 'tr' | 'en' = 'tr') {
 
   const services = [
     {
-      name: locale === 'tr' ? 'Web Yazılım' : 'Web Software',
+      name: locale === 'tr' ? 'ERP Yazılımı' : 'ERP Software',
       description: locale === 'tr'
-        ? 'Ölçeklenebilir ve performanslı web yazılım çözümleri.'
-        : 'Scalable and high-performance web software solutions.',
+        ? 'İşletmelere özel kurumsal kaynak planlama (ERP) sistemi geliştirme.'
+        : 'Custom enterprise resource planning (ERP) system development for businesses.',
     },
     {
-      name: locale === 'tr' ? 'Mobil Uygulama' : 'Mobile Application',
+      name: locale === 'tr' ? 'Özel Yazılım Geliştirme' : 'Custom Software Development',
       description: locale === 'tr'
-        ? 'iOS ve Android için modern mobil uygulama geliştirme.'
-        : 'Modern mobile application development for iOS and Android.',
+        ? 'İşletmenize özel web, mobil ve kurumsal yazılım geliştirme hizmeti.'
+        : 'Custom web, mobile and enterprise software development tailored to your business.',
     },
     {
-      name: locale === 'tr' ? 'Yapay Zeka' : 'Artificial Intelligence',
+      name: locale === 'tr' ? 'Mobil Uygulama Geliştirme' : 'Mobile App Development',
       description: locale === 'tr'
-        ? 'Yapay zeka çözümleri ile dijital dönüşüm hızlandırma.'
-        : 'Accelerate digital transformation with AI solutions.',
+        ? 'iOS ve Android için React Native ve Flutter ile cross-platform mobil uygulamalar.'
+        : 'Cross-platform mobile apps for iOS and Android with React Native and Flutter.',
+    },
+    {
+      name: locale === 'tr' ? 'Web Uygulama Geliştirme' : 'Web Application Development',
+      description: locale === 'tr'
+        ? 'Next.js ve React ile SEO uyumlu, yüksek performanslı web uygulamaları ve iş otomasyon sistemleri.'
+        : 'SEO-friendly, high-performance web applications and business automation with Next.js and React.',
     },
   ];
 

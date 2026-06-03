@@ -42,7 +42,7 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-b from-slate-900 to-black border-t border-blue-500/20 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
           {/* Logo */}
           <div className="sm:col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center mb-4">
@@ -103,6 +103,25 @@ const Footer = () => {
                 >
                   {t('footer.privacy')}
                 </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Services Links */}
+          <div>
+            <h3 className="text-white font-semibold mb-4 text-base sm:text-lg">Hizmetlerimiz</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/erp-yazilimi" className="text-white/70 hover:text-white transition-colors text-sm sm:text-base">ERP Yazılımı</Link>
+              </li>
+              <li>
+                <Link href="/ozel-yazilim" className="text-white/70 hover:text-white transition-colors text-sm sm:text-base">Özel Yazılım</Link>
+              </li>
+              <li>
+                <Link href="/mobil-uygulama-gelistirme" className="text-white/70 hover:text-white transition-colors text-sm sm:text-base">Mobil Uygulama</Link>
+              </li>
+              <li>
+                <Link href="/web-gelistirme" className="text-white/70 hover:text-white transition-colors text-sm sm:text-base">Web Geliştirme</Link>
               </li>
             </ul>
           </div>
