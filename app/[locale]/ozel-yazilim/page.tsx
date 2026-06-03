@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Link } from '@/i18n/routing';
 import DynamicIcon from '@/components/DynamicIcon';
+import LeadCaptureForm from '@/components/LeadCaptureForm';
 import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
 import Script from 'next/script';
 
@@ -183,19 +184,16 @@ export default async function CustomSoftwarePage({ params }: { params: Promise<{
 
       {/* CTA */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 to-slate-800">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="glass-card rounded-2xl p-12 border border-purple-500/20">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Projenizi Hayata Geçirelim</h2>
-            <p className="text-xl text-white/70 mb-8">Ücretsiz ihtiyaç analizi ve teklif için hemen iletişime geçin.</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/iletisim" className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl font-semibold transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/50 transform hover:scale-105">
-                Teklif İsteyin <DynamicIcon iconName="ArrowRight" className="ml-2 w-5 h-5" />
-              </Link>
-              <a href="https://wa.me/905556667788?text=Merhaba%2C%20%C3%B6zel%20yaz%C4%B1l%C4%B1m%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold transition-all duration-300">
-                <DynamicIcon iconName="MessageSquare" className="mr-2 w-5 h-5" /> WhatsApp
-              </a>
-            </div>
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              {locale === 'tr' ? 'Projenizi Hayata Geçirelim' : "Let's Bring Your Project to Life"}
+            </h2>
+            <p className="text-xl text-white/70">
+              {locale === 'tr' ? 'Ücretsiz ihtiyaç analizi ve teklif için hemen iletişime geçin.' : 'Contact us now for a free needs assessment and quote.'}
+            </p>
           </div>
+          <LeadCaptureForm locale={locale} serviceType="custom-software" accentColor="purple" title={locale === 'tr' ? 'Özel Yazılım Teklifi Alın' : 'Get a Custom Software Quote'} />
         </div>
       </section>
       <Footer />

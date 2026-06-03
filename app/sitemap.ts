@@ -19,6 +19,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/ozel-yazilim',
     '/mobil-uygulama-gelistirme',
     '/web-gelistirme',
+    '/blog/erp-yazilimi-nedir',
+    '/blog/erp-yazilimi-maliyeti-2026',
+    '/blog/ozel-yazilim-vs-hazir-yazilim',
   ];
 
   const staticPages: MetadataRoute.Sitemap = [];

@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Link } from '@/i18n/routing';
 import DynamicIcon from '@/components/DynamicIcon';
+import LeadCaptureForm from '@/components/LeadCaptureForm';
 import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
 import Script from 'next/script';
 
@@ -339,35 +340,25 @@ export default async function ERPPage({
         </div>
       </section>
 
-      {/* Final CTA */}
+      {/* Lead Capture Form */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 to-slate-800">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="glass-card rounded-2xl p-12 border border-blue-500/20 bg-gradient-to-br from-blue-500/5 to-indigo-500/5">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Ücretsiz ERP İhtiyaç Analizi
+              {locale === 'tr' ? 'Ücretsiz ERP İhtiyaç Analizi' : 'Free ERP Needs Assessment'}
             </h2>
-            <p className="text-xl text-white/70 mb-8">
-              İşletmenize en uygun ERP çözümünü birlikte belirleyelim. Uzman ekibimiz ücretsiz danışmanlık için hazır.
+            <p className="text-xl text-white/70">
+              {locale === 'tr'
+                ? 'İşletmenize en uygun ERP çözümünü birlikte belirleyelim.'
+                : "Let's determine the best ERP solution for your business."}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/iletisim"
-                className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-semibold transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/50 transform hover:scale-105"
-              >
-                Teklif İsteyin
-                <DynamicIcon iconName="ArrowRight" className="ml-2 w-5 h-5" />
-              </Link>
-              <a
-                href="https://wa.me/905556667788?text=Merhaba%2C%20ERP%20yaz%C4%B1l%C4%B1m%C4%B1%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold transition-all duration-300 hover:shadow-2xl hover:shadow-green-500/50 transform hover:scale-105"
-              >
-                <DynamicIcon iconName="MessageSquare" className="mr-2 w-5 h-5" />
-                WhatsApp&apos;tan Yazın
-              </a>
-            </div>
           </div>
+          <LeadCaptureForm
+            locale={locale}
+            serviceType="erp"
+            accentColor="blue"
+            title={locale === 'tr' ? 'ERP Projesi Teklifi Alın' : 'Get an ERP Project Quote'}
+          />
         </div>
       </section>
 

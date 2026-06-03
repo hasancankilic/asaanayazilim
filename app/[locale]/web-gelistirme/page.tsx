@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Link } from '@/i18n/routing';
 import DynamicIcon from '@/components/DynamicIcon';
+import LeadCaptureForm from '@/components/LeadCaptureForm';
 import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
 import Script from 'next/script';
 
@@ -156,14 +157,16 @@ export default async function WebDevPage({ params }: { params: Promise<{ locale:
 
       {/* CTA */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 to-slate-800">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="glass-card rounded-2xl p-12 border border-emerald-500/20">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Web Projenizi Birlikte İnşa Edelim</h2>
-            <p className="text-xl text-white/70 mb-8">Ücretsiz ihtiyaç analizi ve proje planlaması için hemen iletişime geçin.</p>
-            <Link href="/iletisim" className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl font-semibold transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-500/50 transform hover:scale-105">
-              Teklif İsteyin <DynamicIcon iconName="ArrowRight" className="ml-2 w-5 h-5" />
-            </Link>
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              {locale === 'tr' ? 'Web Projenizi Birlikte İnşa Edelim' : "Let's Build Your Web Project Together"}
+            </h2>
+            <p className="text-xl text-white/70">
+              {locale === 'tr' ? 'Ücretsiz ihtiyaç analizi ve proje planlaması için hemen iletişime geçin.' : 'Contact us now for a free needs assessment and project plan.'}
+            </p>
           </div>
+          <LeadCaptureForm locale={locale} serviceType="web-development" accentColor="emerald" title={locale === 'tr' ? 'Web Projesi Teklifi Alın' : 'Get a Web Project Quote'} />
         </div>
       </section>
       <Footer />
