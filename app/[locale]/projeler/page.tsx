@@ -94,7 +94,38 @@ const projects = [
   },
 ];
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  let dbProjects: any[] = [];
+
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/projects`, {
+      next: { revalidate: 3600 },
+    });
+    
+    if (response.ok) {
+      const result = await response.json();
+      if (result.success && result.data) {
+        dbProjects = result.data.projects || [];
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching dynamic projects:', error);
+  }
+
+  // Map DB projects to UI shape, or fallback to static list
+  const displayProjects = dbProjects.length > 0
+    ? dbProjects.map((p) => ({
+        id: p.slug || p.id,
+        title: p.title,
+        description: p.shortDescription || '',
+        image: p.thumbnailUrl || '/images/placeholder.jpg',
+        category: p.tags && Array.isArray(p.tags) && p.tags[0] ? p.tags[0] : 'Yazılım',
+        date: p.year || '2026',
+        gradient: 'from-blue-600 to-indigo-600',
+      }))
+    : projects;
+
   return (
     <main className="min-h-screen">
       <Navbar />
@@ -118,60 +149,69 @@ export default function ProjectsPage() {
       {/* Projects Grid */}
       <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
-              <Link
-                key={project.id}
-                href={`/projeler/${project.id}`}
-                className="group block"
-              >
-                <div className="glass-card rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:border-blue-400/60 hover:shadow-2xl hover:shadow-blue-500/20 hover:scale-[1.02] relative">
-                  {/* Image */}
-                  <div className="relative h-64 overflow-hidden">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                    
-                    {/* Category Badge */}
-                    <div className={`absolute top-4 right-4 px-3 py-1 bg-gradient-to-r ${project.gradient} rounded-full text-white text-sm font-medium backdrop-blur-sm`}>
-                      {project.category}
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6">
-                    <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-white/70 mb-4 leading-relaxed">
-                      {project.description}
-                    </p>
-                    
-                    {/* Meta Info */}
-                    <div className="flex items-center gap-4 text-sm text-white/50 mb-4">
-                      <div className="flex items-center gap-1">
-                        <DynamicIcon iconName="Calendar" className="w-4 h-4" />
-                        {project.date}
+          {displayProjects.length === 0 ? (
+            <EmptyState
+              title="Proje Bulunamadı"
+              description="Henüz sergilenecek bir proje bulunmamaktadır."
+              actionLabel="Ana Sayfa"
+              actionHref="/"
+            />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {displayProjects.map((project) => (
+                <Link
+                  key={project.id}
+                  href={`/projeler/${project.id}`}
+                  className="group block"
+                >
+                  <div className="glass-card rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:border-blue-400/60 hover:shadow-2xl hover:shadow-blue-500/20 hover:scale-[1.02] relative">
+                    {/* Image */}
+                    <div className="relative h-64 overflow-hidden">
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                      
+                      {/* Category Badge */}
+                      <div className={`absolute top-4 right-4 px-3 py-1 bg-gradient-to-r ${project.gradient} rounded-full text-white text-sm font-medium backdrop-blur-sm`}>
+                        {project.category}
                       </div>
                     </div>
 
-                    {/* CTA */}
-                    <div className="flex items-center text-blue-400 font-medium group-hover:translate-x-2 transition-transform">
-                      Detayları Gör
-                      <DynamicIcon iconName="ArrowRight" className="w-4 h-4 ml-2" />
+                    {/* Content */}
+                    <div className="p-6">
+                      <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">
+                        {project.title}
+                      </h3>
+                      <p className="text-white/70 mb-4 leading-relaxed line-clamp-3">
+                        {project.description}
+                      </p>
+                      
+                      {/* Meta Info */}
+                      <div className="flex items-center gap-4 text-sm text-white/50 mb-4">
+                        <div className="flex items-center gap-1">
+                          <DynamicIcon iconName="Calendar" className="w-4 h-4" />
+                          {project.date}
+                        </div>
+                      </div>
+
+                      {/* CTA */}
+                      <div className="flex items-center text-blue-400 font-medium group-hover:translate-x-2 transition-transform">
+                        Detayları Gör
+                        <DynamicIcon iconName="ArrowRight" className="w-4 h-4 ml-2" />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

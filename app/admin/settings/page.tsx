@@ -1,22 +1,47 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AdminLayout from '@/components/AdminLayout';
 import { Settings, Save, Key, Mail } from '@/lib/icons';
 
 export default function SettingsPage() {
-  const [adminEmail, setAdminEmail] = useState(
-    process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'hasancankilic25@gmail.com'
-  );
+  const [adminEmail, setAdminEmail] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
+  useEffect(() => {
+    const fetchAdminInfo = async () => {
+      try {
+        const response = await fetch('/api/auth/check');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.email) {
+            setAdminEmail(data.email);
+          }
+        }
+      } catch (error) {
+        console.error('Admin bilgileri alınamadı:', error);
+      }
+    };
+    fetchAdminInfo();
+  }, []);
+
   const handleSave = async () => {
-    if (newPassword && newPassword !== confirmPassword) {
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      setMessage({ type: 'error', text: 'Lütfen tüm alanları doldurun' });
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
       setMessage({ type: 'error', text: 'Yeni şifreler eşleşmiyor' });
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      setMessage({ type: 'error', text: 'Yeni şifre en az 6 karakter olmalıdır' });
       return;
     }
 
@@ -24,16 +49,29 @@ export default function SettingsPage() {
     setMessage(null);
 
     try {
-      // Note: In production, this should be a proper API endpoint
-      // For now, we'll just show a message
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      
-      setMessage({ type: 'success', text: 'Ayarlar kaydedildi (Not: Şifre değişikliği için .env.local dosyasını güncelleyin)' });
-      setCurrentPassword('');
-      setNewPassword('');
-      setConfirmPassword('');
+      const response = await fetch('/api/admin/settings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          currentPassword,
+          newPassword,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setMessage({ type: 'success', text: data.message || 'Şifreniz başarıyla güncellendi' });
+        setCurrentPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
+      } else {
+        setMessage({ type: 'error', text: data.error || 'Şifre güncellenemedi' });
+      }
     } catch (error) {
-      setMessage({ type: 'error', text: 'Ayarlar kaydedilirken bir hata oluştu' });
+      setMessage({ type: 'error', text: 'Sunucuyla bağlantı kurulamadı' });
     } finally {
       setSaving(false);
     }
@@ -68,13 +106,12 @@ export default function SettingsPage() {
                   <input
                     type="email"
                     value={adminEmail}
-                    onChange={(e) => setAdminEmail(e.target.value)}
                     className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    placeholder="admin@example.com"
+                    placeholder="Yükleniyor..."
                     disabled
                   />
                   <p className="text-white/40 text-xs mt-2">
-                    E-posta adresi .env.local dosyasından yönetilir
+                    E-posta adresi aktif admin oturumundan alınmaktadır
                   </p>
                 </div>
               </div>
@@ -123,9 +160,6 @@ export default function SettingsPage() {
                     placeholder="••••••••"
                   />
                 </div>
-                <p className="text-white/40 text-xs">
-                  Şifre değişikliği için .env.local dosyasındaki NEXT_PUBLIC_ADMIN_PASSWORD değerini güncelleyin
-                </p>
               </div>
             </div>
 

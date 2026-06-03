@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import { signSession } from '@/lib/session';
 
 export async function POST(request: NextRequest) {
   try {
@@ -74,6 +75,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const token = await signSession({ email: normalizedEmail });
+
     // Create success response with session cookie
     const response = NextResponse.json({ 
       success: true,
@@ -81,7 +84,7 @@ export async function POST(request: NextRequest) {
     });
     
     // Set session cookie
-    response.cookies.set('admin_session', 'authenticated', {
+    response.cookies.set('admin_session', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',

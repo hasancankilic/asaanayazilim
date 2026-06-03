@@ -2,9 +2,15 @@ import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
 import { generateHomepageStructuredData } from '@/lib/structured-data';
 import Script from 'next/script';
 import dynamic from 'next/dynamic';
-import Navbar from '@/components/Navbar';
-import Hero from '@/components/Hero';
 
+const Navbar = dynamic(() => import('@/components/Navbar'), {
+  ssr: false,
+  loading: () => <div className="min-h-[80px]" aria-hidden="true" />,
+});
+const Hero = dynamic(() => import('@/components/Hero'), {
+  ssr: false,
+  loading: () => <div className="min-h-[600px]" aria-hidden="true" />,
+});
 const Services = dynamic(() => import('@/components/Services'), {
   ssr: false,
   loading: () => <div className="min-h-[520px]" aria-hidden="true" />,

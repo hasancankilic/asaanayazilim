@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import { verifyAdminSession } from '@/lib/auth-prisma';
 
 const newsletterSchema = z.object({
   email: z.string().email('Geçerli bir e-posta adresi girin'),
@@ -60,7 +61,15 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
-  // Return subscriber count (admin only in production)
+  const isAuthenticated = await verifyAdminSession();
+  if (!isAuthenticated) {
+    return NextResponse.json(
+      { error: 'Yetkisiz erişim' },
+      { status: 401 }
+    );
+  }
+
+  // Return subscriber count (admin only)
   return NextResponse.json({
     count: subscribers.size,
   });

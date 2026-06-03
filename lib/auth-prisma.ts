@@ -8,6 +8,7 @@
 import { cookies } from 'next/headers';
 import { prisma } from './db';
 import bcrypt from 'bcryptjs';
+import { signSession, verifySession } from './session';
 
 /**
  * Hash a password using bcrypt
@@ -48,18 +49,29 @@ export async function verifyAdminSession(): Promise<boolean> {
     const cookieStore = await cookies();
     const session = cookieStore.get('admin_session');
     
-    if (!session || session.value !== 'authenticated') {
+    if (!session) {
+      return false;
+    }
+    
+    const decoded = await verifySession(session.value);
+    if (!decoded || !decoded.email) {
       return false;
     }
     
     // Verify admin exists in database
     try {
-      const adminCount = await prisma.adminUser.count();
-      return adminCount > 0;
+      const admin = await prisma.adminUser.findUnique({
+        where: { email: decoded.email }
+      });
+      return !!admin;
     } catch (error) {
       // If DB error, still allow session (fallback mode)
-      console.error('Error checking admin count:', error);
-      return true;
+      console.error('Error checking admin email:', error);
+      
+      const adminEmail = (process.env.ADMIN_EMAIL || process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'hasancankilic25@gmail.com')
+        .toLowerCase()
+        .trim();
+      return decoded.email === adminEmail;
     }
   } catch (error) {
     console.error('Error verifying admin session:', error);
@@ -70,9 +82,10 @@ export async function verifyAdminSession(): Promise<boolean> {
 /**
  * Create admin session cookie
  */
-export async function createAdminSession() {
+export async function createAdminSession(email: string) {
   const cookieStore = await cookies();
-  cookieStore.set('admin_session', 'authenticated', {
+  const token = await signSession({ email: email.toLowerCase().trim() });
+  cookieStore.set('admin_session', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',

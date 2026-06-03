@@ -2,16 +2,19 @@ import createMiddleware from 'next-intl/middleware';
 import { routing } from './i18n/routing';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { verifySession } from './lib/session';
 
 // Admin route protection
-function checkAdminAuth(request: NextRequest): boolean {
+async function checkAdminAuth(request: NextRequest): Promise<boolean> {
   const session = request.cookies.get('admin_session');
-  return !!session && session.value === 'authenticated';
+  if (!session) return false;
+  const decoded = await verifySession(session.value);
+  return !!decoded;
 }
 
 const intlMiddleware = createMiddleware(routing);
 
-export default function middleware(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Root path redirect to default locale
@@ -40,7 +43,7 @@ export default function middleware(request: NextRequest) {
     }
 
     // Check authentication for ALL other admin routes
-    const isAuthenticated = checkAdminAuth(request);
+    const isAuthenticated = await checkAdminAuth(request);
     
     if (!isAuthenticated) {
       // Store the intended destination in a query param

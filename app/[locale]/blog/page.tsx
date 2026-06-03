@@ -91,16 +91,16 @@ export default async function BlogPage({
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {blogPosts.map((post) => (
                 <Link
-                  key={post._id}
-                  href={`/blog/${post.slug.current}`}
+                  key={post.id}
+                  href={`/blog/${post.slug}`}
                   className="group block"
                 >
                   <div className="glass-card rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:border-blue-400/60 hover:shadow-2xl hover:shadow-blue-500/20 hover:scale-[1.02] h-full flex flex-col">
                     {/* Image */}
-                    {(post.mainImage || post.coverImage) && (
+                    {post.coverImageUrl && (
                       <div className="relative h-48 overflow-hidden">
                         <Image
-                          src={(post.mainImage || post.coverImage)?.asset?.url || '/images/placeholder.jpg'}
+                          src={post.coverImageUrl || '/images/placeholder.jpg'}
                           alt={post.title}
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -140,7 +140,7 @@ export default async function BlogPage({
                                 month: 'long',
                                 day: 'numeric',
                               })
-                            : new Date(post._createdAt).toLocaleDateString(locale === 'en' ? 'en-US' : 'tr-TR', {
+                            : new Date(post.createdAt).toLocaleDateString(locale === 'en' ? 'en-US' : 'tr-TR', {
                                 year: 'numeric',
                                 month: 'long',
                                 day: 'numeric',

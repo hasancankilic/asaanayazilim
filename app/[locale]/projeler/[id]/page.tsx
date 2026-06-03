@@ -4,6 +4,7 @@ import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 import PageTransition from '@/components/PageTransition';
 import DynamicIcon from '@/components/DynamicIcon';
+import ImageGallery from '@/components/ImageGallery';
 import { generateMetadata as generateSEOMetadata } from '@/lib/metadata';
 import type { Metadata } from 'next';
 
@@ -167,7 +168,33 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const resolvedParams = await params;
   const { id, locale = 'tr' } = resolvedParams;
-  const project = projectDetails[id];
+  const { generateMetadata: generateSEOMetadata } = await import('@/lib/metadata');
+  
+  // Try static details first
+  let project = projectDetails[id];
+
+  if (!project) {
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+      const response = await fetch(`${baseUrl}/api/projects/${id}`, {
+        next: { revalidate: 3600 },
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success && result.data && result.data.project) {
+          const dbProject = result.data.project;
+          project = {
+            title: dbProject.title,
+            description: dbProject.shortDescription || '',
+            image: dbProject.thumbnailUrl || '/images/placeholder.jpg',
+          };
+        }
+      }
+    } catch (error) {
+      console.error('Metadata project fetch error:', error);
+    }
+  }
 
   const title = project?.title || (locale === 'tr' ? 'Proje Detayı | AŞAANA YAZILIM' : 'Project Detail | AŞAANA YAZILIM');
   const description = project?.description || (locale === 'tr'
@@ -190,7 +217,47 @@ export default async function ProjectDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const project = projectDetails[id];
+  
+  // Try to find static project first
+  let project = projectDetails[id];
+
+  // If not found in static list, query dynamic project from database
+  if (!project) {
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+      const response = await fetch(`${baseUrl}/api/projects/${id}`, {
+        next: { revalidate: 3600 },
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success && result.data && result.data.project) {
+          const dbProject = result.data.project;
+          
+          // Map DB project keys to expected UI keys
+          project = {
+            title: dbProject.title,
+            description: dbProject.shortDescription || '',
+            image: dbProject.thumbnailUrl || '/images/placeholder.jpg',
+            technologies: dbProject.tags || [],
+            features: dbProject.content 
+              ? [dbProject.shortDescription || dbProject.title] 
+              : ['Detaylı proje planlaması', 'Modern UI/UX tasarımı', 'Yüksek performanslı altyapı'],
+            result: dbProject.content || 'Proje başarıyla tamamlandı.',
+            category: dbProject.tags && dbProject.tags[0] ? dbProject.tags[0] : 'Yazılım Geliştirme',
+            date: dbProject.year || '2026',
+            gradient: 'from-blue-600 to-indigo-600',
+            gallery: dbProject.images ? dbProject.images.map((img: string, idx: number) => ({
+              src: img,
+              label: `Ekran Görüntüsü ${idx + 1}`
+            })) : [],
+          };
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching dynamic project detail:', error);
+    }
+  }
 
   if (!project) {
     return (
@@ -276,27 +343,7 @@ export default async function ProjectDetailPage({
                 <DynamicIcon iconName="Images" className="w-8 h-8 text-blue-400" />
                 Modül Ekran Görüntüleri
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {project.gallery.map((item: { src: string; label: string }, idx: number) => (
-                  <div key={idx} className="glass-card rounded-xl overflow-hidden group hover:border-blue-400/60 transition-all duration-300">
-                    <div className="relative h-56 overflow-hidden">
-                      <Image
-                        src={item.src}
-                        alt={item.label}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                      <div className="absolute bottom-0 left-0 right-0 p-4">
-                        <p className="text-white text-sm font-medium">{item.label}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <ImageGallery items={project.gallery} />
             </div>
           </section>
         )}
