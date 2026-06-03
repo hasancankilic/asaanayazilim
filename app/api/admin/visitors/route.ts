@@ -2,11 +2,24 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { prisma } from '@/lib/db';
 
+async function verifyAdminAuth(): Promise<boolean> {
+  try {
+    const cookieStore = await cookies();
+    const session = cookieStore.get('admin_session');
+    if (session) {
+      const { verifySession } = await import('@/lib/session');
+      const decoded = await verifySession(session.value);
+      if (decoded && decoded.email) return true;
+    }
+  } catch {}
+  return false;
+}
+
 export async function GET(request: NextRequest) {
   // Auth check
-  const cookieStore = cookies();
-  const session = cookieStore.get('admin_session');
-  if (!session) {
+  const isAuthenticated = await verifyAdminAuth();
+  if (!isAuthenticated) {
+    // Fallback: check auth header
     const authHeader = request.headers.get('authorization');
     const token = authHeader?.replace('Bearer ', '');
     const expectedToken = process.env.ADMIN_SECRET || process.env.ADMIN_API_TOKEN || 'dev-token';
@@ -45,7 +58,6 @@ export async function GET(request: NextRequest) {
         take: limit,
       }),
       prisma.siteVisitor.count({ where }),
-      // Aggregate stats
       prisma.siteVisitor.groupBy({
         by: ['ipAddress'],
         where,
@@ -91,6 +103,9 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('Admin visitors error:', error);
-    return NextResponse.json({ error: 'Failed to fetch visitors' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch visitors', detail: String(error) },
+      { status: 500 }
+    );
   }
 }
