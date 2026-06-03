@@ -13,6 +13,7 @@ import {
   Menu,
   X,
   ImageIcon,
+  Users,
 } from '@/lib/icons';
 import { useEffect, useState } from 'react';
 
@@ -25,6 +26,7 @@ const menuItems = [
   { href: '/admin/blog', label: 'Blog', icon: BookOpen },
   { href: '/admin/projects', label: 'Projects', icon: FolderKanban },
   { href: '/admin/media', label: 'Media', icon: ImageIcon },
+  { href: '/admin/visitors', label: 'Visitors', icon: Users },
 ];
 
 export default function AdminLayout({ children }: AdminLayoutProps) {

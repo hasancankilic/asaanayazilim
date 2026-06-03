@@ -79,3 +79,29 @@ model Project {
   @@map("projects")
 }
 
+// Site Visitor Tracking Model
+model SiteVisitor {
+  id             String   @id @default(cuid())
+  ipAddress      String
+  userAgent      String?
+  browser        String?  // Chrome, Firefox, Safari, etc.
+  os             String?  // Windows, macOS, iOS, Android, etc.
+  device         String?  // Desktop, Mobile, Tablet
+  page           String   // visited URL path
+  referrer       String?  // where they came from
+  language       String?  // Accept-Language header
+  screenRes      String?  // screen resolution from client
+  country        String?  // from CF-IPCountry or x-vercel-ip-country
+  city           String?  // from x-vercel-ip-city
+  visitCount     Int      @default(1) // visits from same IP
+  firstVisit     DateTime @default(now())
+  lastVisit      DateTime @default(now())
+  createdAt      DateTime @default(now())
+
+  @@index([ipAddress])
+  @@index([lastVisit])
+  @@index([page])
+  @@index([createdAt])
+  @@map("site_visitors")
+}
+

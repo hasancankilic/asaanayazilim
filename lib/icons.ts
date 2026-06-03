@@ -16,6 +16,7 @@ export {
   Menu,
   X,
   ChevronDown,
+  ChevronLeft,
   ChevronRight,
   ArrowLeft,
   ArrowRight,
