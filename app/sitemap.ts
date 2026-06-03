@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+import { staticBlogPosts } from '@/lib/blog-data';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl =
@@ -19,10 +20,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/ozel-yazilim',
     '/mobil-uygulama-gelistirme',
     '/web-gelistirme',
-    '/blog/erp-yazilimi-nedir',
-    '/blog/erp-yazilimi-maliyeti-2026',
-    '/blog/ozel-yazilim-vs-hazir-yazilim',
   ];
+
+  const highPriorityRoutes = ['/erp-yazilimi', '/ozel-yazilim', '/mobil-uygulama-gelistirme', '/web-gelistirme'];
 
   const staticPages: MetadataRoute.Sitemap = [];
 
@@ -32,7 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         url: `${baseUrl}/${locale}${route}`,
         lastModified: new Date(),
         changeFrequency: 'weekly' as const,
-        priority: route === '' ? 1 : ['/erp-yazilimi', '/ozel-yazilim', '/mobil-uygulama-gelistirme', '/web-gelistirme'].includes(route) ? 0.9 : 0.8,
+        priority: route === '' ? 1 : highPriorityRoutes.includes(route) ? 0.9 : 0.8,
         alternates: {
           languages: {
             tr: `${baseUrl}/tr${route}`,
@@ -41,86 +41,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
       });
     }
-  }
 
-  // Dynamic pages from CMS (only if Sanity is configured)
-  let dynamicPages: MetadataRoute.Sitemap = [];
-  
-  if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-    try {
-      const { client } = await import('@/lib/sanity/client');
-      const { blogPostsQuery, projectsQuery, servicesQuery } = await import('@/lib/sanity/queries');
-      
-      if (!client) {
-        return staticPages;
-      }
-      
-      const [blogPosts, projects, services] = await Promise.all([
-        client.fetch(blogPostsQuery),
-        client.fetch(projectsQuery),
-        client.fetch(servicesQuery),
-      ]);
-
-    const dynamicPages: MetadataRoute.Sitemap = [];
-
-    for (const locale of locales) {
-      for (const post of blogPosts) {
-        dynamicPages.push({
-          url: `${baseUrl}/${locale}/blog/${post.slug.current}`,
-          lastModified: new Date(post.publishedAt || post._createdAt),
-          changeFrequency: 'monthly' as const,
-          priority: 0.7,
-          alternates: {
-            languages: {
-              'tr-TR': `${baseUrl}/tr/blog/${post.slug.current}`,
-              'en-US': `${baseUrl}/en/blog/${post.slug.current}`,
-              'x-default': `${baseUrl}/tr/blog/${post.slug.current}`,
-            },
+    // Add all static blog posts
+    for (const post of staticBlogPosts) {
+      staticPages.push({
+        url: `${baseUrl}/${locale}/blog/${post.slug}`,
+        lastModified: new Date(post.publishedAt),
+        changeFrequency: 'monthly' as const,
+        priority: 0.7,
+        alternates: {
+          languages: {
+            tr: `${baseUrl}/tr/blog/${post.slug}`,
+            en: `${baseUrl}/en/blog/${post.slug}`,
           },
-        });
-      }
-
-      for (const project of projects) {
-        dynamicPages.push({
-          url: `${baseUrl}/${locale}/projeler/${project.slug.current}`,
-          lastModified: new Date(project._createdAt),
-          changeFrequency: 'monthly' as const,
-          priority: 0.7,
-          alternates: {
-            languages: {
-              'tr-TR': `${baseUrl}/tr/projeler/${project.slug.current}`,
-              'en-US': `${baseUrl}/en/projeler/${project.slug.current}`,
-              'x-default': `${baseUrl}/tr/projeler/${project.slug.current}`,
-            },
-          },
-        });
-      }
-
-      for (const service of services) {
-        dynamicPages.push({
-          url: `${baseUrl}/${locale}/hizmetler/${service.slug.current}`,
-          lastModified: new Date(service._createdAt),
-          changeFrequency: 'monthly' as const,
-          priority: 0.8,
-          alternates: {
-            languages: {
-              'tr-TR': `${baseUrl}/tr/hizmetler/${service.slug.current}`,
-              'en-US': `${baseUrl}/en/hizmetler/${service.slug.current}`,
-              'x-default': `${baseUrl}/tr/hizmetler/${service.slug.current}`,
-            },
-          },
-        });
-      }
-    }
-
-      return [...staticPages, ...dynamicPages];
-    } catch (error) {
-      console.error('Error generating sitemap from CMS:', error);
-      return staticPages;
+        },
+      });
     }
   }
 
   return staticPages;
 }
-
-

@@ -115,7 +115,7 @@ export default async function ERPPage({
         name: 'AŞAANA YAZILIM',
         description: 'ERP yazılımı geliştirme ve özel yazılım çözümleri sunan teknoloji firması',
         url: 'https://asaanayazilim.com',
-        telephone: '+90-555-666-77-88',
+        telephone: '+90-505-470-01-25',
         address: {
           '@type': 'PostalAddress',
           addressLocality: 'İstanbul',
@@ -169,7 +169,7 @@ export default async function ERPPage({
                   <DynamicIcon iconName="ArrowRight" className="ml-2 w-5 h-5" />
                 </Link>
                 <a
-                  href="tel:+905556667788"
+                  href="tel:+905054700125"
                   className="inline-flex items-center justify-center px-8 py-4 border border-white/20 hover:border-white/40 text-white rounded-xl font-semibold transition-all duration-300 hover:bg-white/5"
                 >
                   <DynamicIcon iconName="Phone" className="mr-2 w-5 h-5" />

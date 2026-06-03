@@ -25,7 +25,7 @@
     "types": ["node", "react", "react-dom"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "types/**/*.d.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "scripts"]
 }
 
 

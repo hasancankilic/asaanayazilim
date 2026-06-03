@@ -17,6 +17,8 @@ export async function GET() {
         slug: true,
         excerpt: true,
         coverImageUrl: true,
+        category: true,
+        readTime: true,
         status: true,
         publishedAt: true,
         createdAt: true,

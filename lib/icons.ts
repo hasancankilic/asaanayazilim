@@ -68,6 +68,7 @@ export {
   AlertCircle,
   Loader2,
   XCircle,
+  HelpCircle,
 } from 'lucide-react';
 
 // Services & Features
