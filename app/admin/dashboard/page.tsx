@@ -24,6 +24,11 @@ interface AnalyticsData {
   totalPageViews: number;
   totalEvents: number;
   activeUsers?: number;
+  projects?: {
+    total: number;
+    published: number;
+    draft: number;
+  };
 }
 
 export default function AdminDashboard() {
@@ -34,6 +39,7 @@ export default function AdminDashboard() {
     totalPageViews: 0,
     totalEvents: 0,
     activeUsers: 0,
+    projects: { total: 0, published: 0, draft: 0 },
   });
   const [loading, setLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
@@ -45,10 +51,7 @@ export default function AdminDashboard() {
     }
 
     try {
-      const response = await fetch('/api/analytics', {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_API_TOKEN || 'dev-token'}`,
-        },
+      const response = await fetch('/api/admin/analytics', {
         cache: 'no-store',
       });
 
@@ -136,7 +139,7 @@ export default function AdminDashboard() {
               <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
                 {analytics.totalEvents.toLocaleString()}
               </div>
-              <div className="text-white/60 text-xs sm:text-sm">Toplam Etkileşim</div>
+              <div className="text-white/60 text-xs sm:text-sm">Toplam Ziyaretçi</div>
             </div>
 
             <div className="glass-card rounded-2xl p-4 sm:p-6 hover:border-green-400/60 transition-all">
@@ -159,6 +162,47 @@ export default function AdminDashboard() {
               <div className="text-white/60 text-xs sm:text-sm">Aktif Kullanıcı</div>
             </div>
           </div>
+
+          {/* Project Stats */}
+          {analytics.projects && (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8">
+              <div className="glass-card rounded-2xl p-4 sm:p-6 hover:border-cyan-400/60 transition-all">
+                <div className="flex items-center justify-between mb-4">
+                  <svg className="w-6 h-6 sm:w-8 sm:h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                  </svg>
+                </div>
+                <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
+                  {analytics.projects.total}
+                </div>
+                <div className="text-white/60 text-xs sm:text-sm">Toplam Proje</div>
+              </div>
+
+              <div className="glass-card rounded-2xl p-4 sm:p-6 hover:border-emerald-400/60 transition-all">
+                <div className="flex items-center justify-between mb-4">
+                  <svg className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
+                  {analytics.projects.published}
+                </div>
+                <div className="text-white/60 text-xs sm:text-sm">Aktif Proje</div>
+              </div>
+
+              <div className="glass-card rounded-2xl p-4 sm:p-6 hover:border-amber-400/60 transition-all">
+                <div className="flex items-center justify-between mb-4">
+                  <svg className="w-6 h-6 sm:w-8 sm:h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                </div>
+                <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
+                  {analytics.projects.draft}
+                </div>
+                <div className="text-white/60 text-xs sm:text-sm">Taslak Proje</div>
+              </div>
+            </div>
+          )}
 
           <div className="grid md:grid-cols-2 gap-6 sm:gap-8 mb-8">
             {/* Top Pages */}
