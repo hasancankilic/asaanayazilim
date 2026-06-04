@@ -18,9 +18,50 @@ interface MediaFile {
 
 export default function MediaPage() {
   const [files, setFiles] = useState<MediaFile[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Load existing files on mount
+  useEffect(() => {
+    loadFiles();
+  }, []);
+
+  const loadFiles = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/admin/upload');
+      if (!response.ok) {
+        throw new Error('Failed to load files');
+      }
+      const data = await response.json();
+      setFiles(data.files || []);
+    } catch (error) {
+      setError('Dosyalar yüklenemedi');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (filename: string) => {
+    if (!confirm('Bu dosyayı silmek istediğinizden emin misiniz?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/admin/upload?filename=${encodeURIComponent(filename)}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Delete failed');
+      }
+
+      setFiles(files.filter((f) => f.filename !== filename));
+    } catch (error) {
+      setError('Dosya silinemedi');
+    }
+  };
 
   const handleImageUpload = async (file: File) => {
     setUploading(true);
@@ -105,7 +146,12 @@ export default function MediaPage() {
           <div className="glass-card rounded-2xl p-6">
             <h2 className="text-xl font-bold mb-6">Yüklenen Resimler</h2>
             
-            {files.length === 0 ? (
+            {loading ? (
+              <div className="text-center py-12">
+                <Loader2 className="w-16 h-16 text-blue-400 animate-spin mx-auto mb-4" />
+                <p className="text-white/60">Dosyalar yükleniyor...</p>
+              </div>
+            ) : files.length === 0 ? (
               <div className="text-center py-12">
                 <ImageIcon className="w-16 h-16 text-white/20 mx-auto mb-4" />
                 <p className="text-white/60">Henüz resim yüklenmedi</p>
@@ -121,15 +167,22 @@ export default function MediaPage() {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
                       <button
                         onClick={() => {
                           navigator.clipboard.writeText(file.url);
                           alert('URL kopyalandı!');
                         }}
-                        className="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-sm text-white"
+                        className="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-sm text-white w-24"
                       >
                         Kopyala
+                      </button>
+                      <button
+                        onClick={() => handleDelete(file.filename)}
+                        className="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm text-white w-24 flex items-center justify-center gap-1"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                        Sil
                       </button>
                     </div>
                     <div className="mt-2 text-xs text-white/60 truncate" title={file.filename}>
