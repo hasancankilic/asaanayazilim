@@ -117,15 +117,13 @@ export async function authenticateAdmin(email: string, password: string): Promis
       return isValid;
     }
     
-    // Fallback: try env-based auth (for initial setup)
+    // Fallback: try env-based auth
     const adminEmail = (process.env.ADMIN_EMAIL || process.env.NEXT_PUBLIC_ADMIN_EMAIL)
       ?.toLowerCase()
       .trim();
     const adminPassword = process.env.ADMIN_PASSWORD || process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
     
     if (adminEmail && adminPassword && email.toLowerCase().trim() === adminEmail && password === adminPassword) {
-      // Auto-seed admin user if env vars are set
-      await seedAdminUser();
       return true;
     }
     

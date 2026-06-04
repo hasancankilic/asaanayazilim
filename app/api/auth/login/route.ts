@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 import { signSession } from '@/lib/session';
 
 export async function POST(request: NextRequest) {
@@ -9,10 +8,7 @@ export async function POST(request: NextRequest) {
 
     if (!email || !password) {
       return NextResponse.json(
-        { 
-          success: false, 
-          error: 'Tüm alanları doldurun' 
-        },
+        { success: false, error: 'Tüm alanları doldurun' },
         { status: 400 }
       );
     }
@@ -22,43 +18,27 @@ export async function POST(request: NextRequest) {
 
     if (!normalizedEmail || !normalizedPassword) {
       return NextResponse.json(
-        { 
-          success: false, 
-          error: 'Tüm alanları doldurun' 
-        },
+        { success: false, error: 'Tüm alanları doldurun' },
         { status: 400 }
       );
     }
 
-    // Try Prisma-based auth first, fallback to env-based
     let isAuthenticated = false;
 
+    // Try Prisma-based auth
     try {
-      const { authenticateAdmin, seedAdminUser } = await import('@/lib/auth-prisma');
-      
-      // Try to seed (non-blocking)
-      try {
-        await seedAdminUser();
-      } catch (seedError) {
-        // Ignore seeding errors - may be expected if DB not set up
-      }
-      
-      // Try Prisma auth
-      try {
-        isAuthenticated = await authenticateAdmin(normalizedEmail, normalizedPassword);
-      } catch (authError) {
-        console.warn('Prisma auth failed, using fallback:', authError);
-      }
-    } catch (importError) {
-      // Prisma not available - use fallback
+      const { authenticateAdmin } = await import('@/lib/auth-prisma');
+      isAuthenticated = await authenticateAdmin(normalizedEmail, normalizedPassword);
+    } catch (error) {
+      console.warn('Prisma auth failed, trying fallback:', error);
     }
 
-    // Fallback to environment variable-based auth
+    // Fallback: env-based auth
     if (!isAuthenticated) {
-      const adminEmail = (process.env.ADMIN_EMAIL || process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'hasancankilic25@gmail.com')
+      const adminEmail = (process.env.ADMIN_EMAIL || 'hasancankilic25@gmail.com')
         .toLowerCase()
         .trim();
-      const adminPassword = process.env.ADMIN_PASSWORD || process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'admin123';
+      const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
 
       if (normalizedEmail === adminEmail && normalizedPassword === adminPassword) {
         isAuthenticated = true;
@@ -67,40 +47,31 @@ export async function POST(request: NextRequest) {
 
     if (!isAuthenticated) {
       return NextResponse.json(
-        { 
-          success: false, 
-          error: 'E-posta veya şifre hatalı' 
-        },
+        { success: false, error: 'E-posta veya şifre hatalı' },
         { status: 401 }
       );
     }
 
     const token = await signSession({ email: normalizedEmail });
 
-    // Create success response with session cookie
-    const response = NextResponse.json({ 
+    const response = NextResponse.json({
       success: true,
       message: 'Giriş başarılı',
     });
-    
-    // Set session cookie
+
     response.cookies.set('admin_session', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: 60 * 60 * 24 * 7,
       path: '/',
     });
-    
+
     return response;
   } catch (error) {
-    console.error('❌ Login API error:', error);
-    
+    console.error('Login API error:', error);
     return NextResponse.json(
-      { 
-        success: false, 
-        error: 'Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin.' 
-      },
+      { success: false, error: 'Giriş yapılırken bir hata oluştu.' },
       { status: 500 }
     );
   }

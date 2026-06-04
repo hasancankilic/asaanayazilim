@@ -2,11 +2,12 @@ import { MetadataRoute } from 'next';
 import { staticBlogPosts } from '@/lib/blog-data';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl =
+  const baseUrl = (
     process.env.NEXT_PUBLIC_SITE_URL ||
     (process.env.NODE_ENV === 'production'
       ? 'https://asaanayazilim.com'
-      : 'http://localhost:3000');
+      : 'http://localhost:3000')
+  ).trim().replace(/\/+$/, '');
   const locales = ['tr', 'en'];
 
   const staticRoutes = [
@@ -58,6 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
     }
   }
+  
 
   return staticPages;
 }

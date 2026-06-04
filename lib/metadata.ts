@@ -55,7 +55,7 @@ export function generateMetadata({
     : `${siteUrl}/${otherLocale}${url || ''}`;
 
   return {
-    title: finalTitle,
+    title: absoluteTitle ? { absolute: finalTitle } : finalTitle,
     description: finalDescription,
     keywords,
     authors: [{ name: siteName }],
@@ -140,17 +140,8 @@ export const defaultMetadata: Metadata = {
     telephone: false,
   },
   icons: {
-    icon: [
-      { url: '/favicon/favicon.ico', sizes: 'any' },
-      { url: '/favicon/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-    ],
-    apple: [
-      { url: '/favicon/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
-    other: [
-      { rel: 'mask-icon', url: '/favicon/safari-pinned-tab.svg', color: '#3b82f6' },
-    ],
+    icon: '/favicon.ico',
+    apple: '/apple-icon',
   },
   manifest: '/manifest.json',
   appleWebApp: {
